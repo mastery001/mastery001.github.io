@@ -9,8 +9,8 @@ markdown: kramdown
 
 # The title and tagline is showed on homepage
 #
-title :  Dolphin 
-tagline: Mastery's Blog
+title :  Mastery's Blog  
+tagline: Mastery
 
 # Information about author
 #

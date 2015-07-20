@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  
- <title>Simpleyyt</title>
+ <title>Mastery's Blog</title>
  <link href="http://mastery001.github.io/" rel="self"/>
  <link href="http://mastery001.github.io"/>
- <updated>2015-07-20T15:10:17+08:00</updated>
+ <updated>2015-07-20T15:24:20+08:00</updated>
  <id>http://mastery001.github.io</id>
  <author>
-   <name>Yitao Yao</name>
+   <name>Feng Ling</name>
    <email></email>
  </author>
 
