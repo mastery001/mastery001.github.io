@@ -1,4 +1,4 @@
-# Simpleyyt
+# Mastery's Blog
 
 My blog based on Jekyll-Bootstrap.
 
