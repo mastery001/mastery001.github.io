@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  
- <title>Mastery's Blog</title>
+ <title>Dolphin</title>
  <link href="http://mastery001.github.io/" rel="self"/>
  <link href="http://mastery001.github.io"/>
- <updated>2015-07-20T16:43:19+08:00</updated>
+ <updated>2015-07-21T09:22:36+08:00</updated>
  <id>http://mastery001.github.io</id>
  <author>
    <name>Feng Ling</name>
@@ -37,6 +37,110 @@
 &lt;p&gt;后面方括号内部的&lt;code&gt;3324K-&amp;gt;152K(3712K)&lt;/code&gt;含义是&lt;code&gt;GC前该内存区域已使用容量-&amp;gt;GC后该内存区域已使用容量（该内存区域总容量）&lt;/code&gt;。而在方括号之外的&lt;code&gt;3324K-&amp;gt;152K(11904K)&lt;/code&gt;表示&lt;code&gt;GC前Java堆已使用容量-&amp;gt;GC后Java堆已使用容量（Java堆总容量）&lt;/code&gt;。 
 再往后，&lt;code&gt;0.0025925 secs&lt;/code&gt;表示该内存区域GC所占用的时间，单位是秒。有的收集器会给出更具体的时间数据，如&lt;code&gt;[Times: user=0.01 sys=0.02,real=0.02 secs]&lt;/code&gt;，这里面的user,sys和real与Linux的time命令所输出的时间含义一致，分别代表用户态消耗的CPU时间，内核消耗的CPU时间和操作从开始到结束的墙钟时间（Wall Clock Time）。CPU时间与墙钟时间的区别是，墙钟时间包括各种非运算的等待耗时，例如等待磁盘I/O，等待线程阻塞，而CPU时间不包括这些耗时，但当系统有多CPU或者多核的话，多线程操作会叠加这些CPU时间，所以读者看到user或sys时间超过real时间是完全正常的。&lt;/p&gt;
 
+</content>
+ </entry>
+ 
+ <entry>
+   <title>判断两个单向链表是否相交</title>
+   <link href="http://mastery001.github.io/datastructure/2012/07/20/c_on_DataStructure"/>
+   <updated>2012-07-20T00:00:00+08:00</updated>
+   <id>http://mastery001.github.io/datastructure/2012/07/20/c_on_DataStructure</id>
+   <content type="html">&lt;!--more--&gt;
+
+&lt;h1 id=&quot;section&quot;&gt;目录预览&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code&gt;1.链表定义
+2.相交的理解
+3.解决方法
+    3.1 双重循环判断
+    3.2 判断最后一个结点是否相同
+    3.3 链表成环
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;section-1&quot;&gt;链表定义&lt;/h1&gt;
+
+&lt;p&gt;链式存储结构存储线性表的方法是把存放数据元素的结点用指针域构造成链。指针是指向下一个节点的引用，由数据元素域和一个或若干个指针域组
+成的一个类称之为结点。链式存储结构的特点是数据元素间的逻辑关系表现在节点的链接关系上。&lt;/p&gt;
+
+&lt;h1 id=&quot;section-2&quot;&gt;相交的理解&lt;/h1&gt;
+
+&lt;p&gt;若两个链表&lt;code&gt;相交&lt;/code&gt;则其相交后的结点必定是最后一个结点或者是第k个结点能使其后面的结点连结成一条直线的结点；&lt;br /&gt;
+则可以得出若两个单向链表相交，则两个链表组成的形状一定为V型或Y型。&lt;/p&gt;
+
+&lt;h1 id=&quot;section-3&quot;&gt;解决方法&lt;/h1&gt;
+&lt;pre&gt;&lt;code&gt;可以考虑用三种方式来实现：
+    (1)使用双重循环来遍历结点判断是否相同
+    (2)判断两个链表的最后一个结点是否相同
+    (3)将两个链表构成环
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;设定链表结点的数据结构为&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Node{
+    DataType data;  //数据元素域
+    Node next;      //指针域
+} 第一个结点的引用为root；
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;1.双重循环判断&lt;/h2&gt;
+&lt;p&gt;对两个单向链表进行循环，临界值：当第一个链表的结点与第二个链表的结点相同时返回true，反之返回false。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+*  使用while进行循环迭代，条件为next不为null
+*/
+while root1 != null
+begin
+    while root2 != null
+    begin
+        if root1 == root2 then do return true
+        end if
+    end
+end
+return false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;时间复杂度分析： 最好的情况下是root1==root2,此时只循环一次，时间复杂度为O(1),最坏情况下是两个链表的最后
+一个结点相等时，循环需要n*n次，即时间复杂度为O(n2).&lt;/p&gt;
+
+&lt;h2 id=&quot;section-5&quot;&gt;2.判断最后一个结点是否相同&lt;/h2&gt;
+&lt;p&gt;得到两个单向链表的最后一个结点，临界值：两个结点相同时返回true，反之返回false&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+*   用root1指代第一个链表的头结点，root2指代第二个链表的头结点
+*/
+while root1 != null
+begin
+    root1 = root1.next
+end
+
+while root2 != null
+begin
+    root2 = root2.next
+end
+
+if root1 == root2 then return true
+else 
+    return false
+end if
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;时间复杂度分析： 该算法的时间复杂度在最好和最坏的情况下都是O(n)，都必须循环n次到尾结点。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-6&quot;&gt;3.链表成环&lt;/h2&gt;
+&lt;p&gt;假设两个链表尾部相连能够构成环，则一个链表的首结点遍历到末尾结点必然是另一个链表的首结点。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+*   该程序的先觉条件是必须在两个链表已经构成环的基础上可执行
+*/
+while root1 != null
+begin 
+    root1 = root1.next
+end
+if root1 == root2 then return true
+return false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;时间复杂度分析： 该算法的时间复杂度在最好和最坏的情况下都是O(n)，都必须循环n次到尾结点。&lt;/p&gt;
 </content>
  </entry>
  

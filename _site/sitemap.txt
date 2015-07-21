@@ -11,3 +11,4 @@ http://mastery001.github.io/sitemap.txt
 http://mastery001.github.io/tags.html
 
 http://mastery001.github.io/java/2015/07/20/c_on_Java
+http://mastery001.github.io/datastructure/2012/07/20/c_on_DataStructure
