@@ -4,7 +4,7 @@
  <title>Dolphin</title>
  <link href="http://mastery001.github.io/" rel="self"/>
  <link href="http://mastery001.github.io"/>
- <updated>2015-07-21T09:22:36+08:00</updated>
+ <updated>2015-07-21T09:29:34+08:00</updated>
  <id>http://mastery001.github.io</id>
  <author>
    <name>Feng Ling</name>
@@ -64,8 +64,9 @@
 
 &lt;h1 id=&quot;section-2&quot;&gt;相交的理解&lt;/h1&gt;
 
-&lt;p&gt;若两个链表&lt;code&gt;相交&lt;/code&gt;则其相交后的结点必定是最后一个结点或者是第k个结点能使其后面的结点连结成一条直线的结点；&lt;br /&gt;
-则可以得出若两个单向链表相交，则两个链表组成的形状一定为V型或Y型。&lt;/p&gt;
+&lt;p&gt;若两个链表&lt;code&gt;相交&lt;/code&gt;则其相交后的结点必定是最后一个结点或者是第k个结点能使其后面的结点连结成一条直线的结点&lt;/p&gt;
+
+&lt;p&gt;则可以得出若两个单向链表相交，则两个链表组成的形状一定为V型或Y型。&lt;/p&gt;
 
 &lt;h1 id=&quot;section-3&quot;&gt;解决方法&lt;/h1&gt;
 &lt;pre&gt;&lt;code&gt;可以考虑用三种方式来实现：
