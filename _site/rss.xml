@@ -5,10 +5,219 @@
         <description>Dolphin - Feng Ling</description>
         <link>http://mastery001.github.io</link>
         <link>http://mastery001.github.io</link>
-        <lastBuildDate>2015-07-21T11:27:49+08:00</lastBuildDate>
-        <pubDate>2015-07-21T11:27:49+08:00</pubDate>
+        <lastBuildDate>2015-07-22T11:41:17+08:00</lastBuildDate>
+        <pubDate>2015-07-22T11:41:17+08:00</pubDate>
         <ttl>1800</ttl>
 
+
+        <item>
+                <title>JavaClass文件结构</title>
+                <description>&lt;pre&gt;&lt;code&gt;1.Class文件概述
+    1.1 无符号数和表
+    1.2 魔数和Class文件的版本
+    1.3 常量池
+        1.3.1 javap的使用
+        1.3.2 常量池中的14种常量项的结构总表 
+    1.4 访问标志
+    1.5 类索引、父类索引和接口索引集合
+    1.6 字段表集合
+    1.7 方法表集合
+    1.8 属性表集合
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;!--more--&gt;
+
+&lt;h1 id=&quot;class&quot;&gt;1.Class文件概述&lt;/h1&gt;
+
+&lt;p&gt;Class文件是一组以8位字节为基础的二进制流，各个数据项目严格按照顺序紧凑地排列在Class文件之中，中间没有添加任何
+分隔符，这使得整个Class文件中存储的内容几乎全部是程序的必要数据，没有空隙存在。当遇到需要占用8位字节的以上的
+空间的数据项时，则会按照高位在前的方式分隔成若干个8位字节进行存储。&lt;/p&gt;
+
+&lt;p&gt;根据Java虚拟机规范的规定，Class文件格式采用一种类似于C语言结构体的伪结构来存储数据，这种伪结构中只有两种数据类型：
+无符号和表，后面的解析都要以这两种数据类型为基础，所以这里要先介绍这两个概念。&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;1.1 无符号数和表&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;无符号数属于基本的数据类型，以u1、u2、u4、u8来分别代表1个字节、2个字节、4个字节和8个字节的无符号数，
+无符号数可以用来描述数字、索引引用、数量值或者按照UTF-8编码构成字符串值。&lt;/p&gt;
+
+  &lt;p&gt;表是由多个无符号数或者其他表作为数据项构成的复合数据类型，所有表都习惯性的以”_info”结尾。表用于描述
+有层次关系的复合结构的数据，整个Class文件本质上就是一张表。它由表6-1所示的数据项构成。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_file_format.jpg&quot; alt=&quot;Class文件格式&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;class-1&quot;&gt;1.2 魔数与Class文件的版本&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;每个Class文件的头4个字节称为魔数（Magic Number），它的唯一作用是确定这个文件是否为一个能被虚拟机接受的Class文件。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Class文件的魔数很有“浪漫气息”，值为&lt;code&gt;0xCAFEBABY&lt;/code&gt;(咖啡宝贝).&lt;/p&gt;
+
+&lt;p&gt;紧接着魔数的4个字节值是Class文件的版本号：第5和第6个字节是次版本号（Minor Version）,第7和第8个字节是主版本号
+（Major Version）。Java的版本号是从45开始的。&lt;/p&gt;
+
+&lt;p&gt;为了方便讲解，现准备了一段最简单的Java代码（见代码清单1-1）&lt;/p&gt;
+
+&lt;p&gt;代码清单1-1&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package org.fenixsoft.clazz;
+
+public class TestClass {
+    
+    private int m;
+        
+    public int inc() {
+        return m+1;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;下面是部分class文件中的内容：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/clazz_file.jpg&quot; alt=&quot;class file&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;1.3 常量池&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;紧接着主次版本号之后的是常量池入口，常量池可以理解为Class文件之中的资源仓库，它是Class文件结构中与其他项目关联
+最多的数据类型，也是占用Class文件空间最大的数据项目之一，同时它还是在Class文件中第一个出现的表类型数据项目。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;由于常量池常量的数量是不固定的，所以在常量池的入口需要放置一项u2类型的数据，代表常量池容量计数值(constant_pool_count)。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;如下图所示&lt;/strong&gt;
+&lt;img src=&quot;/images/class_constant.jpg&quot; alt=&quot;常量池&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;常量池容量（偏移地址：0x00000008）为十六进制数0x0016，即二进制的22.这就代表常量池中有21项常量，索引值范围为1-21.
+在Class文件格式规范制定之时，设计者将第0项常量空出来在于满足后面某些指向常量池的索引值的数据在特定情况下需要表达
+“不引用任何一个常量池项目”的含义。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;常量池主要存放两大类常量：字面量（Literal）和符号引用（Symbolic References）。字面量比较接近
+Java语言层面的常量概念，如文本字符串,声明为final的常量值等。而符号引用则属于编译原理方面的概念，
+包括了下面三类常量：
+ 1.类和接口的全限定名（Full Qualified Name）
+ 2.字段的名称和描述符（Descriptor）
+ 3.方法的名称和描述符
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;常量池的每一项常量都是一个表，在JDK1.7之前共有11种结构各不相同的表结构数据，在JDK1.7中为了更好支持动态语言调用，
+又额外增加了3种（CONSTANT_MethodHandle_info、CONSTANT_MethodType_info、CONSTANT_InvokeDynamic_info）。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;这14种表都有一个共同特点，就是表开始的第一位是一个u1类型的标志位(tag，取值见下表中标志列)，代表当前常量属于哪种
+常量类型.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_constant_type.jpg&quot; alt=&quot;常量池项目类型&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;javap&quot;&gt;1.3.1 javap的使用&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;在JDK的bin目录中，有一个专门用于分析Class文件字节码的工具：javap，下图列出了使用javap工具的-verbose参数输出的
+TestClass.class文件字节码内容。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_javap_info.jpg&quot; alt=&quot;javap输出的字节码内容&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;1.3.2 常量池中的14种常量项的结构总表&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_constant_struct1.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_constant_struct2.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_constant_struct3.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section-3&quot;&gt;1.4 访问标志&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;在常量池结束之后，紧接着的两个字节代表访问标志（access_flags），这个标志用于识别一些类或者接口层次的访问信息，
+包括：这个Class是类还是接口；是否定义为public类型；是否定义为abstract类型；如果是类的话，是否被声明为final等。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;具体的标志位以及标志的含义见下图&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_access_flags.jpg&quot; alt=&quot;access_flags&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;access_flags中一共有16个标志位可以使用，上图只定义了其中8个，未使用的标志位要求一律为0.&lt;/p&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;1.5 类索引、父类索引和接口索引集合&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;类索引(this_class)和父类索引(super_class)都是一个u2类型的数据，而接口索引集合(interfaces)是一组u2类型的数据的集合
+，Class文件中由这三项数据来确定这个类的继承关系。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_clazz_index.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section-5&quot;&gt;1.6 字段表集合&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;字段表(field_info)用于描述接口或者类中声明的变量。字段(field)包括类级变量和实例级变量，但不包括在方法内部声明的
+局部变量。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;字段表结构：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_field_info.jpg&quot; alt=&quot;field_info&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;字段修饰符放在access_flags项目中，它与类中的access_flags项目非常类似的，都是一个u2的数据类型，其中可以设置的标志
+位的含义见下表：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_field_access_flags.jpg&quot; alt=&quot;class_field_access_flags&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;跟随access_flags标志的两项索引值：name_index和descriptor_index。它们都是对常量池的引用，分别代表着字段的简单名称
+以及字段和方法的描述符。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;名词解释&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;全限定名：将类名中的'.'替换成'/'，例如：java.lang.Object的全限定名为java/lang/Object
+   
+简单名称：指没有类型和参数修饰的方法和字段名称，例如Object的equals()方法的简单名称为equals
+
+描述符：用来描述字段的数据类型，方法的参数列表(包括数量、类型以及顺序)和返回值。根据描述符规则
+基本数据类型以及代表无返回值的void类型都用一个大写字符来表示，而对象类型则用字符L加对象的全限
+定名来表示。描述数组类型时，每一维度将使用一个前置的'['字符来描述。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;描述符标识字符含义&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_field_descriptor.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;用描述符来描述方法时，按照先参数列表，后返回值的顺序描述，参数列表按照参数的严格顺序放在一组小括号`()`
+之内。如方法void inc()的描述符为`()V`,方法java.lang.String()的描述符为`()Ljava/lang/String;`,
+方法int indexOf(char[] source, int sourceOffset, int sourceCount, char[] target,int targetOffset,int targetCount, int frmoIndex)的描述符为`([CII[CIII)I`
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;section-6&quot;&gt;1.7 方法表集合&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;方法表的结构与字段表的结构相同，依次包括了访问标志(access_flags)、名称索引(name_index)、描述符索引(descriptor_index)
+、属性表集合(arrtibutes)几项。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;方法访问标志&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/class_method_access_flags.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注意事项：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;如果父类方法在子类中没有被重写(Override)，方法表集合中就不会出现来自父类的方法信息。但同样的
+，有可能会出现编译器自动添加的方法，最典型的便是类构造器`&amp;lt;clinit&amp;gt;`方法和实例构造器`&amp;lt;init&amp;gt;`方法。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;section-7&quot;&gt;1.8 属性表集合&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;在Class文件、字段表、方法表都可以携带自己的属性表集合，以用于描述某些场景专有的信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;具体属性表在此不作讲解，请参考《&lt;a href=&quot;http://yunpan.cn/ccWFtqyhHKAur&quot;&gt;深入理解Java虚拟机：JVM高级特性与最佳实践（最新第二版）&lt;/a&gt;》的第六章&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;文件提取码是2f30&lt;/p&gt;
+
+&lt;h1 id=&quot;section-8&quot;&gt;声明&lt;/h1&gt;
+
+&lt;p&gt;本文摘自《&lt;a href=&quot;http://yunpan.cn/ccWFtqyhHKAur&quot;&gt;深入理解Java虚拟机：JVM高级特性与最佳实践（最新第二版）&lt;/a&gt;》一书，为了更好的理解java的字节码文件。&lt;/p&gt;
+</description>
+                <link>http://mastery001.github.io/java/2015/07/21/JavaClass%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84</link>
+                <guid>http://mastery001.github.io/java/2015/07/21/JavaClass文件结构</guid>
+                <pubDate>2015-07-21T00:00:00+08:00</pubDate>
+        </item>
 
         <item>
                 <title>如何阅读GC日志</title>
@@ -50,18 +259,18 @@
 
 &lt;!--more--&gt;
 
-&lt;h1 id=&quot;section&quot;&gt;链表定义&lt;/h1&gt;
+&lt;h1 id=&quot;section&quot;&gt;1.链表定义&lt;/h1&gt;
 
 &lt;p&gt;链式存储结构存储线性表的方法是把存放数据元素的结点用指针域构造成链。指针是指向下一个节点的引用，由数据元素域和一个或若干个指针域组
 成的一个类称之为结点。链式存储结构的特点是数据元素间的逻辑关系表现在节点的链接关系上。&lt;/p&gt;
 
-&lt;h1 id=&quot;section-1&quot;&gt;相交的理解&lt;/h1&gt;
+&lt;h1 id=&quot;section-1&quot;&gt;2.相交的理解&lt;/h1&gt;
 
 &lt;p&gt;若两个链表&lt;code&gt;相交&lt;/code&gt;则其相交后的结点必定是最后一个结点或者是第k个结点能使其后面的结点连结成一条直线的结点&lt;/p&gt;
 
 &lt;p&gt;则可以得出若两个单向链表相交，则两个链表组成的形状一定为V型或Y型。&lt;/p&gt;
 
-&lt;h1 id=&quot;section-2&quot;&gt;解决方法&lt;/h1&gt;
+&lt;h1 id=&quot;section-2&quot;&gt;3.解决方法&lt;/h1&gt;
 &lt;pre&gt;&lt;code&gt;可以考虑用三种方式来实现：
     (1)使用双重循环来遍历结点判断是否相同
     (2)判断两个链表的最后一个结点是否相同
@@ -76,7 +285,7 @@
 } 第一个结点的引用为root；
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&quot;section-3&quot;&gt;1.双重循环判断&lt;/h2&gt;
+&lt;h2 id=&quot;section-3&quot;&gt;3.1 双重循环判断&lt;/h2&gt;
 &lt;p&gt;对两个单向链表进行循环，临界值：当第一个链表的结点与第二个链表的结点相同时返回true，反之返回false。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;/**
@@ -96,7 +305,7 @@ return false
 &lt;p&gt;时间复杂度分析： 最好的情况下是root1==root2,此时只循环一次，时间复杂度为O(1),最坏情况下是两个链表的最后
 一个结点相等时，循环需要n*n次，即时间复杂度为O(n2).&lt;/p&gt;
 
-&lt;h2 id=&quot;section-4&quot;&gt;2.判断最后一个结点是否相同&lt;/h2&gt;
+&lt;h2 id=&quot;section-4&quot;&gt;3.2 判断最后一个结点是否相同&lt;/h2&gt;
 &lt;p&gt;得到两个单向链表的最后一个结点，临界值：两个结点相同时返回true，反之返回false&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;/**
@@ -120,7 +329,7 @@ end if
 
 &lt;p&gt;时间复杂度分析： 该算法的时间复杂度在最好和最坏的情况下都是O(n)，都必须循环n次到尾结点。&lt;/p&gt;
 
-&lt;h2 id=&quot;section-5&quot;&gt;3.链表成环&lt;/h2&gt;
+&lt;h2 id=&quot;section-5&quot;&gt;3.3 链表成环&lt;/h2&gt;
 &lt;p&gt;假设两个链表尾部相连能够构成环，则一个链表的首结点遍历到末尾结点必然是另一个链表的首结点。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;/**
