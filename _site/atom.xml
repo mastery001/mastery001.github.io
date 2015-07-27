@@ -4,13 +4,124 @@
  <title>Dolphin</title>
  <link href="http://mastery001.github.io/" rel="self"/>
  <link href="http://mastery001.github.io"/>
- <updated>2015-07-22T11:41:17+08:00</updated>
+ <updated>2015-07-27T16:31:25+08:00</updated>
  <id>http://mastery001.github.io</id>
  <author>
    <name>Feng Ling</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Java集合类</title>
+   <link href="http://mastery001.github.io/java/2015/07/27/Java%E9%9B%86%E5%90%88%E7%B1%BB"/>
+   <updated>2015-07-27T00:00:00+08:00</updated>
+   <id>http://mastery001.github.io/java/2015/07/27/Java集合类</id>
+   <content type="html">&lt;!--more--&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>JVM启动工作原理</title>
+   <link href="http://mastery001.github.io/java/2015/07/22/JVM%E5%90%AF%E5%8A%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"/>
+   <updated>2015-07-22T00:00:00+08:00</updated>
+   <id>http://mastery001.github.io/java/2015/07/22/JVM启动工作原理</id>
+   <content type="html">&lt;!--more--&gt;
+
+&lt;h1 id=&quot;jvm&quot;&gt;1. JVM体系结构&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code&gt;(1)类加载器（`ClassLoader`）（用来装载`.class`文件）
+
+(2)执行引擎（执行字节码，或者执行本地方法）
+
+(3)运行时数据区（方法区、堆、java栈、本地方法栈、PC寄存器）
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;jvm-1&quot;&gt;2. JVM的生命周期&lt;/h1&gt;
+
+&lt;p&gt;1.JVM实例对应了一个独立运行的java程序，它是进程级别;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;a）启动。启动一个java程序时，一个JVM实例就产生了，任何一个拥有`public static void main(String
+[] args)`方法的class都可以作为JVM实例运行的起点
+
+b）运行。`main()`作为该程序的初始线程的起点，任何其他线程均由该线程启动。JVM内部有两种线程：守护线
+程和非守护线程，`main()`属于非守护线程守护线程通常由JVM自己使用，java程序也可以标明自己创建的线程
+是守护线程
+
+c）消亡。当程序中的所有非守护线程都终止时，JVM才退出；若安全管理器允许，程序也可以使用`Runtime`类
+或者`System.exit()`来退出
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2.JVM执行引擎实例则对应了属于用户运行程序的线程，它是线程级别的;&lt;/p&gt;
+
+&lt;h1 id=&quot;jvm-2&quot;&gt;3. JVM启动&lt;/h1&gt;
+
+&lt;p&gt;JVM工作原理和特点主要是指操作系统装入JVM，是通过JDK中&lt;code&gt;java.exe&lt;/code&gt;来完成，通过下面4步来完成JVM环境.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1.创建`JVM`装载环境和配置
+
+2.装载`JVM.dll`
+
+3.初始化`JVM.dll`并挂界到`JNIENV`(`JNI`调用接口)实例
+
+4.调用`JNIENV`实例装载并处理`class`类
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;3.1 启动代码分析&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;main&lt;/code&gt;函数在&lt;code&gt;openjdk\jdk\src\share\bin\main.c&lt;/code&gt;文件中。简单流程分析如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1.SelectVersion-&amp;gt;LocateJRE,定位jre的位置。因为在不同的操作系统上定位jre的方式不同，相关代码就
+和平台相关了，windows相关的一些代码在`openjdk\jdk\src\windows`下，而`linux`和`solaris`相关
+代码在`openjdk\jdk\src\solaris`下。这部分调用到的代码都在`{os}\bin\java_md.c`中。简单的说，
+windows中，LocateJRE要通过查找注册表来定位jre的位置，而Linux下可能需要读取环境变量等。
+
+2.CreateExecutionEnvironment-&amp;gt;GetJVMPath得到jvm的路径，其实就是找到相应的动态链接
+库，具体到linux上，就是`libjvm.so`。
+
+3.LoadJavaVM，linux上是加载'libjvm.so',windows上是加载`jvm.dll`，导
+出`JNI_CreateJavaVM`、`JNI_GetDefaultJavaVMInitArgs`等函数。
+
+4.获取classpath。
+
+5.ContinueInNewThread(&amp;amp;ifn,argc,argv,jarfile,classname,ret);在一个新线程中启动jvm。
+ContinueInNewThread的功能是：调用`GetDefaultJavaJVMInitArgs`(其实就
+调用`JNI_GetDefaultJavaVMInitArgs`)获取虚拟机初始化参数，设定线程栈的大小，
+创建java程序需要的各项参数。然后调用下面函数 `ContinueInNewThread0(JavaMain, 
+threadStackSize, (void*)&amp;amp;args);` ;因为不同操作系统创建线程的方式不同，所以又进
+入os相关的代码，`{os}\bin\java_md.c`中的`int ContinueInNewThread0(JNICALL 
+*continuation)(void *), jlong stack_size,void *args)`函数。
+    
+    阅读其源码，可知linux上是通过`pthread_create`创建线程，Solaris通过`thr_create`创建线程，
+    而`windows`则通过`_beginthreadex`创建线程。
+    
+    在新线程中调用JavaMain函数，即openjdk\jdk\src\share\bin\main.c中的 `int JNICALL 
+    JavaMain(void *_args)`,它负责加载要运行的的java class，并调用class的main方法。
+    
+    处理步骤是：
+    
+    1).InitalizeJVM-&amp;gt;CreateJavaVM(即通过JNI调用JNI_CreateJavaVM),创建jvm。
+    2).LoadMainClass加载main class，并确保main方法的签名是正确的。 
+    3).mainID = (*env)-&amp;gt;GetStaticMethodID(env, mainClass, &quot;main&quot;,&quot;([Ljava/lang/String;)V&quot;);通过JNI得到main方法的method信息。 
+    4).mainArgs = NewPlatformStringArray(env, argv, argc);为main方法准备参数数组。 
+    5).(*env)-&amp;gt;CallStaticVoidMethod(env, mainClass, mainID, mainArgs);通过JNI调用main方法。 
+    6).ret = (*env)-&amp;gt;ExceptionOccurred(env) == NULL ? 0 : 1;处理异常 
+    7).DetachCurrentThread 
+    8).DestroyJavaVM 销毁JVM
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;下面以windows的实现进行分析：&lt;/p&gt;
+
+  &lt;p&gt;首先查找jre路径，Java通过&lt;code&gt;GetApplicationHome api&lt;/code&gt;来获得当前的&lt;code&gt;java.exe&lt;/code&gt;绝对路径（例如我电脑上的&lt;code&gt;e:\program
+\java\jdk\bin\java.exe&lt;/code&gt;），那么它会截取到绝对路径&lt;code&gt;e:\program\java\jdk&lt;/code&gt;，判断&lt;code&gt;e:\program\java\jdk\jvm.dll&lt;/code&gt;
+文件是否存在，如果存在就把&lt;code&gt;e:\program\java\jdk&lt;/code&gt;，作为jre路径；如果不存在则判断&lt;code&gt;e:\program\java\jdk\jre\jvm.dll&lt;/code&gt;
+是否存在，如果存在则将&lt;code&gt;e:\program\java\jdk\jre&lt;/code&gt;作为jre路径。如果不存在调用&lt;code&gt;GetPublicJREHome&lt;/code&gt;查&lt;code&gt;HKEY_LOCAL
+_MACHINE\Software\JavaSoft\Java Runtime Environment\&quot;当前JRE版本号&quot;\JavaHome&lt;/code&gt;的路径作为jre路径。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</content>
+ </entry>
  
  <entry>
    <title>JavaClass文件结构</title>
@@ -51,7 +162,7 @@
 有层次关系的复合结构的数据，整个Class文件本质上就是一张表。它由表6-1所示的数据项构成。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/class_file_format.jpg&quot; alt=&quot;Class文件格式&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/class_file_format.jpg&quot; alt=&quot;Class文件格式&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;class-1&quot;&gt;1.2 魔数与Class文件的版本&lt;/h2&gt;
 
@@ -82,7 +193,7 @@ public class TestClass {
 
 &lt;p&gt;&lt;strong&gt;下面是部分class文件中的内容：&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/clazz_file.jpg&quot; alt=&quot;class file&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/clazz_file.jpg&quot; alt=&quot;class file&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section-1&quot;&gt;1.3 常量池&lt;/h2&gt;
 &lt;blockquote&gt;
@@ -93,7 +204,7 @@ public class TestClass {
 &lt;p&gt;由于常量池常量的数量是不固定的，所以在常量池的入口需要放置一项u2类型的数据，代表常量池容量计数值(constant_pool_count)。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;如下图所示&lt;/strong&gt;
-&lt;img src=&quot;/images/class_constant.jpg&quot; alt=&quot;常量池&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/images/java_class/class_constant.jpg&quot; alt=&quot;常量池&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;常量池容量（偏移地址：0x00000008）为十六进制数0x0016，即二进制的22.这就代表常量池中有21项常量，索引值范围为1-21.
 在Class文件格式规范制定之时，设计者将第0项常量空出来在于满足后面某些指向常量池的索引值的数据在特定情况下需要表达
@@ -113,7 +224,7 @@ Java语言层面的常量概念，如文本字符串,声明为final的常量值�
 &lt;p&gt;&lt;strong&gt;这14种表都有一个共同特点，就是表开始的第一位是一个u1类型的标志位(tag，取值见下表中标志列)，代表当前常量属于哪种
 常量类型.&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/class_constant_type.jpg&quot; alt=&quot;常量池项目类型&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/class_constant_type.jpg&quot; alt=&quot;常量池项目类型&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;javap&quot;&gt;1.3.1 javap的使用&lt;/h3&gt;
 
@@ -126,11 +237,11 @@ TestClass.class文件字节码内容。&lt;/p&gt;
 
 &lt;h3 id=&quot;section-2&quot;&gt;1.3.2 常量池中的14种常量项的结构总表&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/class_constant_struct1.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/class_constant_struct1.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/class_constant_struct2.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/class_constant_struct2.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/class_constant_struct3.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/class_constant_struct3.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section-3&quot;&gt;1.4 访问标志&lt;/h2&gt;
 &lt;blockquote&gt;
@@ -140,7 +251,7 @@ TestClass.class文件字节码内容。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;具体的标志位以及标志的含义见下图&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/class_access_flags.jpg&quot; alt=&quot;access_flags&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/class_access_flags.jpg&quot; alt=&quot;access_flags&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;access_flags中一共有16个标志位可以使用，上图只定义了其中8个，未使用的标志位要求一律为0.&lt;/p&gt;
 
@@ -150,7 +261,7 @@ TestClass.class文件字节码内容。&lt;/p&gt;
 ，Class文件中由这三项数据来确定这个类的继承关系。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/class_clazz_index.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/class_clazz_index.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section-5&quot;&gt;1.6 字段表集合&lt;/h2&gt;
 &lt;blockquote&gt;
@@ -160,12 +271,12 @@ TestClass.class文件字节码内容。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;字段表结构：&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/class_field_info.jpg&quot; alt=&quot;field_info&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/class_field_info.jpg&quot; alt=&quot;field_info&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;字段修饰符放在access_flags项目中，它与类中的access_flags项目非常类似的，都是一个u2的数据类型，其中可以设置的标志
 位的含义见下表：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/class_field_access_flags.jpg&quot; alt=&quot;class_field_access_flags&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/class_field_access_flags.jpg&quot; alt=&quot;class_field_access_flags&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;跟随access_flags标志的两项索引值：name_index和descriptor_index。它们都是对常量池的引用，分别代表着字段的简单名称
 以及字段和方法的描述符。&lt;/p&gt;
@@ -183,7 +294,7 @@ TestClass.class文件字节码内容。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;描述符标识字符含义&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/class_field_descriptor.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/class_field_descriptor.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;用描述符来描述方法时，按照先参数列表，后返回值的顺序描述，参数列表按照参数的严格顺序放在一组小括号`()`
 之内。如方法void inc()的描述符为`()V`,方法java.lang.String()的描述符为`()Ljava/lang/String;`,
@@ -198,7 +309,7 @@ TestClass.class文件字节码内容。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;方法访问标志&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/class_method_access_flags.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_class/class_method_access_flags.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;注意事项：&lt;/strong&gt;&lt;/p&gt;
 
@@ -232,7 +343,7 @@ TestClass.class文件字节码内容。&lt;/p&gt;
 &lt;p&gt;阅读GC日志是处理Java虚拟机内存问题的基础技能，它只是一些认为确定的规则，没有太多技术含量。 
 每一种收集器的日志形式都是由它们自身的实现而决定的，换而言之，每个收集器的日志格式都可以不一样。下面为两段典型的GC日志：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/GC.jpg&quot; alt=&quot;GC典型日志&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java_gc/GC.jpg&quot; alt=&quot;GC典型日志&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;最前面的数字&lt;code&gt;33.125;&lt;/code&gt;和&lt;code&gt;100.667;&lt;/code&gt;代表了GC发生的时间，这个数字的含义是从Java虚拟机启动以来经过的秒数。&lt;/p&gt;
 

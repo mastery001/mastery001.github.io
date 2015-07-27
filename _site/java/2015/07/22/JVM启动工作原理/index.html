@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	
-	<title>如何阅读GC日志</title>
+	<title>JVM启动工作原理</title>
     
 	
 	<meta name="author" content="Feng Ling">
@@ -149,32 +149,106 @@
 				</div>
 			</div>
 			<div class="journal-body">
-				<h1 class="journal-title">如何阅读GC日志<span class="author">by Mastery</span>
+				<h1 class="journal-title">JVM启动工作原理<span class="author">by Mastery</span>
 				</h1>
 				<span class="the-article">
 				<!--more-->
-<p>一名合格的java程序员应具备基本的使用JVM能力，了解其启动时的配置参数，并且能够理解GC的输出日志。</p>
 
-<p>阅读GC日志是处理Java虚拟机内存问题的基础技能，它只是一些认为确定的规则，没有太多技术含量。 
-每一种收集器的日志形式都是由它们自身的实现而决定的，换而言之，每个收集器的日志格式都可以不一样。下面为两段典型的GC日志：</p>
+<h1 id="jvm">1. JVM体系结构</h1>
 
-<p><img src="/images/java_gc/GC.jpg" alt="GC典型日志" /></p>
+<pre><code>(1)类加载器（`ClassLoader`）（用来装载`.class`文件）
 
-<p>最前面的数字<code>33.125;</code>和<code>100.667;</code>代表了GC发生的时间，这个数字的含义是从Java虚拟机启动以来经过的秒数。</p>
+(2)执行引擎（执行字节码，或者执行本地方法）
 
-<p>GC日志开头的<code>[GC</code>和<code>[Full GC</code>说明了这次垃圾收集的停顿类型，而不是用来区分新生代GC还是老年代GC的。如果有<code>Full</code>，说明这次GC是发生在<code>Stop-the-world</code>的，例如下面这段新生代收集器ParNew的日志也会出现<code>[Full GC</code>（这一般是因为出现了分配担保失败之类的问题，所以才会导致STW）。如果是调用System.gc()方法所触发的收集，那么在这里将显示<code>[Full GC(System)</code>。</p>
-
-<pre><code>[Full GC 283.776: [ParNew: 261559K-&gt;261559K(261559K),0.0000288 secs]
+(3)运行时数据区（方法区、堆、java栈、本地方法栈、PC寄存器）
 </code></pre>
 
-<p>接下来的<code>[DefNew</code>，<code>[Tenured</code>，<code>[Perm</code>表示GC发生的区域，这里显示的区域名称与使用的GC收集器是密切相关的，例如上面样例所使用的Serial收集器的新生代名为<code>Default New Generation</code>，所以显示的是<code>[DefNew</code>。如果是ParNew收集器，新生代名称就会变成<code>[ParNew</code>，意为<code>Parallel New Generation</code>。如果采用的是Parallel Scavenge收集器，那它配套的新生代称为<code>PSYoungGen</code>，老年代和永久代同理，名称也是由收集器决定。</p>
+<h1 id="jvm-1">2. JVM的生命周期</h1>
 
-<p>后面方括号内部的<code>3324K-&gt;152K(3712K)</code>含义是<code>GC前该内存区域已使用容量-&gt;GC后该内存区域已使用容量（该内存区域总容量）</code>。而在方括号之外的<code>3324K-&gt;152K(11904K)</code>表示<code>GC前Java堆已使用容量-&gt;GC后Java堆已使用容量（Java堆总容量）</code>。 
-再往后，<code>0.0025925 secs</code>表示该内存区域GC所占用的时间，单位是秒。有的收集器会给出更具体的时间数据，如<code>[Times: user=0.01 sys=0.02,real=0.02 secs]</code>，这里面的user,sys和real与Linux的time命令所输出的时间含义一致，分别代表用户态消耗的CPU时间，内核消耗的CPU时间和操作从开始到结束的墙钟时间（Wall Clock Time）。CPU时间与墙钟时间的区别是，墙钟时间包括各种非运算的等待耗时，例如等待磁盘I/O，等待线程阻塞，而CPU时间不包括这些耗时，但当系统有多CPU或者多核的话，多线程操作会叠加这些CPU时间，所以读者看到user或sys时间超过real时间是完全正常的。</p>
+<p>1.JVM实例对应了一个独立运行的java程序，它是进程级别;</p>
+
+<pre><code>a）启动。启动一个java程序时，一个JVM实例就产生了，任何一个拥有`public static void main(String
+[] args)`方法的class都可以作为JVM实例运行的起点
+
+b）运行。`main()`作为该程序的初始线程的起点，任何其他线程均由该线程启动。JVM内部有两种线程：守护线
+程和非守护线程，`main()`属于非守护线程守护线程通常由JVM自己使用，java程序也可以标明自己创建的线程
+是守护线程
+
+c）消亡。当程序中的所有非守护线程都终止时，JVM才退出；若安全管理器允许，程序也可以使用`Runtime`类
+或者`System.exit()`来退出
+</code></pre>
+
+<p>2.JVM执行引擎实例则对应了属于用户运行程序的线程，它是线程级别的;</p>
+
+<h1 id="jvm-2">3. JVM启动</h1>
+
+<p>JVM工作原理和特点主要是指操作系统装入JVM，是通过JDK中<code>java.exe</code>来完成，通过下面4步来完成JVM环境.</p>
+
+<pre><code>1.创建`JVM`装载环境和配置
+
+2.装载`JVM.dll`
+
+3.初始化`JVM.dll`并挂界到`JNIENV`(`JNI`调用接口)实例
+
+4.调用`JNIENV`实例装载并处理`class`类
+</code></pre>
+
+<h2 id="section">3.1 启动代码分析</h2>
+
+<p><code>main</code>函数在<code>openjdk\jdk\src\share\bin\main.c</code>文件中。简单流程分析如下：</p>
+
+<pre><code>1.SelectVersion-&gt;LocateJRE,定位jre的位置。因为在不同的操作系统上定位jre的方式不同，相关代码就
+和平台相关了，windows相关的一些代码在`openjdk\jdk\src\windows`下，而`linux`和`solaris`相关
+代码在`openjdk\jdk\src\solaris`下。这部分调用到的代码都在`{os}\bin\java_md.c`中。简单的说，
+windows中，LocateJRE要通过查找注册表来定位jre的位置，而Linux下可能需要读取环境变量等。
+
+2.CreateExecutionEnvironment-&gt;GetJVMPath得到jvm的路径，其实就是找到相应的动态链接
+库，具体到linux上，就是`libjvm.so`。
+
+3.LoadJavaVM，linux上是加载'libjvm.so',windows上是加载`jvm.dll`，导
+出`JNI_CreateJavaVM`、`JNI_GetDefaultJavaVMInitArgs`等函数。
+
+4.获取classpath。
+
+5.ContinueInNewThread(&amp;ifn,argc,argv,jarfile,classname,ret);在一个新线程中启动jvm。
+ContinueInNewThread的功能是：调用`GetDefaultJavaJVMInitArgs`(其实就
+调用`JNI_GetDefaultJavaVMInitArgs`)获取虚拟机初始化参数，设定线程栈的大小，
+创建java程序需要的各项参数。然后调用下面函数 `ContinueInNewThread0(JavaMain, 
+threadStackSize, (void*)&amp;args);` ;因为不同操作系统创建线程的方式不同，所以又进
+入os相关的代码，`{os}\bin\java_md.c`中的`int ContinueInNewThread0(JNICALL 
+*continuation)(void *), jlong stack_size,void *args)`函数。
+    
+    阅读其源码，可知linux上是通过`pthread_create`创建线程，Solaris通过`thr_create`创建线程，
+    而`windows`则通过`_beginthreadex`创建线程。
+    
+    在新线程中调用JavaMain函数，即openjdk\jdk\src\share\bin\main.c中的 `int JNICALL 
+    JavaMain(void *_args)`,它负责加载要运行的的java class，并调用class的main方法。
+    
+    处理步骤是：
+    
+    1).InitalizeJVM-&gt;CreateJavaVM(即通过JNI调用JNI_CreateJavaVM),创建jvm。
+    2).LoadMainClass加载main class，并确保main方法的签名是正确的。 
+    3).mainID = (*env)-&gt;GetStaticMethodID(env, mainClass, "main","([Ljava/lang/String;)V");通过JNI得到main方法的method信息。 
+    4).mainArgs = NewPlatformStringArray(env, argv, argc);为main方法准备参数数组。 
+    5).(*env)-&gt;CallStaticVoidMethod(env, mainClass, mainID, mainArgs);通过JNI调用main方法。 
+    6).ret = (*env)-&gt;ExceptionOccurred(env) == NULL ? 0 : 1;处理异常 
+    7).DetachCurrentThread 
+    8).DestroyJavaVM 销毁JVM
+</code></pre>
+
+<blockquote>
+  <p>下面以windows的实现进行分析：</p>
+
+  <p>首先查找jre路径，Java通过<code>GetApplicationHome api</code>来获得当前的<code>java.exe</code>绝对路径（例如我电脑上的<code>e:\program
+\java\jdk\bin\java.exe</code>），那么它会截取到绝对路径<code>e:\program\java\jdk</code>，判断<code>e:\program\java\jdk\jvm.dll</code>
+文件是否存在，如果存在就把<code>e:\program\java\jdk</code>，作为jre路径；如果不存在则判断<code>e:\program\java\jdk\jre\jvm.dll</code>
+是否存在，如果存在则将<code>e:\program\java\jdk\jre</code>作为jre路径。如果不存在调用<code>GetPublicJREHome</code>查<code>HKEY_LOCAL
+_MACHINE\Software\JavaSoft\Java Runtime Environment\"当前JRE版本号"\JavaHome</code>的路径作为jre路径。</p>
+</blockquote>
 
 
 				</span>
-				<div class="journal-date">Published 20 July 2015</div>
+				<div class="journal-date">Published 22 July 2015</div>
 				<div class="journal-tags">
 				
 				
@@ -199,7 +273,7 @@
 
 
   <div id="comments">
-    <div class="ds-thread" data-thread-key="/java/2015/07/20/c_on_Java"  data-title="如何阅读GC日志 - Dolphin"></div>
+    <div class="ds-thread" data-thread-key="/java/2015/07/22/JVM启动工作原理"  data-title="JVM启动工作原理 - Dolphin"></div>
 </div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->

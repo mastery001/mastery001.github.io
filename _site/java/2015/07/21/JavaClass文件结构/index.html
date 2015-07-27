@@ -186,7 +186,7 @@
 有层次关系的复合结构的数据，整个Class文件本质上就是一张表。它由表6-1所示的数据项构成。</p>
 </blockquote>
 
-<p><img src="/images/class_file_format.jpg" alt="Class文件格式" /></p>
+<p><img src="/images/java_class/class_file_format.jpg" alt="Class文件格式" /></p>
 
 <h2 id="class-1">1.2 魔数与Class文件的版本</h2>
 
@@ -217,7 +217,7 @@ public class TestClass {
 
 <p><strong>下面是部分class文件中的内容：</strong></p>
 
-<p><img src="/images/clazz_file.jpg" alt="class file" /></p>
+<p><img src="/images/java_class/clazz_file.jpg" alt="class file" /></p>
 
 <h2 id="section-1">1.3 常量池</h2>
 <blockquote>
@@ -228,7 +228,7 @@ public class TestClass {
 <p>由于常量池常量的数量是不固定的，所以在常量池的入口需要放置一项u2类型的数据，代表常量池容量计数值(constant_pool_count)。</p>
 
 <p><strong>如下图所示</strong>
-<img src="/images/class_constant.jpg" alt="常量池" /></p>
+<img src="/images/java_class/class_constant.jpg" alt="常量池" /></p>
 
 <p>常量池容量（偏移地址：0x00000008）为十六进制数0x0016，即二进制的22.这就代表常量池中有21项常量，索引值范围为1-21.
 在Class文件格式规范制定之时，设计者将第0项常量空出来在于满足后面某些指向常量池的索引值的数据在特定情况下需要表达
@@ -248,7 +248,7 @@ Java语言层面的常量概念，如文本字符串,声明为final的常量值�
 <p><strong>这14种表都有一个共同特点，就是表开始的第一位是一个u1类型的标志位(tag，取值见下表中标志列)，代表当前常量属于哪种
 常量类型.</strong></p>
 
-<p><img src="/images/class_constant_type.jpg" alt="常量池项目类型" /></p>
+<p><img src="/images/java_class/class_constant_type.jpg" alt="常量池项目类型" /></p>
 
 <h3 id="javap">1.3.1 javap的使用</h3>
 
@@ -261,11 +261,11 @@ TestClass.class文件字节码内容。</p>
 
 <h3 id="section-2">1.3.2 常量池中的14种常量项的结构总表</h3>
 
-<p><img src="/images/class_constant_struct1.jpg" alt="" /></p>
+<p><img src="/images/java_class/class_constant_struct1.jpg" alt="" /></p>
 
-<p><img src="/images/class_constant_struct2.jpg" alt="" /></p>
+<p><img src="/images/java_class/class_constant_struct2.jpg" alt="" /></p>
 
-<p><img src="/images/class_constant_struct3.jpg" alt="" /></p>
+<p><img src="/images/java_class/class_constant_struct3.jpg" alt="" /></p>
 
 <h2 id="section-3">1.4 访问标志</h2>
 <blockquote>
@@ -275,7 +275,7 @@ TestClass.class文件字节码内容。</p>
 
 <p><strong>具体的标志位以及标志的含义见下图</strong></p>
 
-<p><img src="/images/class_access_flags.jpg" alt="access_flags" /></p>
+<p><img src="/images/java_class/class_access_flags.jpg" alt="access_flags" /></p>
 
 <p>access_flags中一共有16个标志位可以使用，上图只定义了其中8个，未使用的标志位要求一律为0.</p>
 
@@ -285,7 +285,7 @@ TestClass.class文件字节码内容。</p>
 ，Class文件中由这三项数据来确定这个类的继承关系。</p>
 </blockquote>
 
-<p><img src="/images/class_clazz_index.jpg" alt="" /></p>
+<p><img src="/images/java_class/class_clazz_index.jpg" alt="" /></p>
 
 <h2 id="section-5">1.6 字段表集合</h2>
 <blockquote>
@@ -295,12 +295,12 @@ TestClass.class文件字节码内容。</p>
 
 <p><strong>字段表结构：</strong></p>
 
-<p><img src="/images/class_field_info.jpg" alt="field_info" /></p>
+<p><img src="/images/java_class/class_field_info.jpg" alt="field_info" /></p>
 
 <p>字段修饰符放在access_flags项目中，它与类中的access_flags项目非常类似的，都是一个u2的数据类型，其中可以设置的标志
 位的含义见下表：</p>
 
-<p><img src="/images/class_field_access_flags.jpg" alt="class_field_access_flags" /></p>
+<p><img src="/images/java_class/class_field_access_flags.jpg" alt="class_field_access_flags" /></p>
 
 <p>跟随access_flags标志的两项索引值：name_index和descriptor_index。它们都是对常量池的引用，分别代表着字段的简单名称
 以及字段和方法的描述符。</p>
@@ -318,7 +318,7 @@ TestClass.class文件字节码内容。</p>
 
 <p><strong>描述符标识字符含义</strong></p>
 
-<p><img src="/images/class_field_descriptor.jpg" alt="" /></p>
+<p><img src="/images/java_class/class_field_descriptor.jpg" alt="" /></p>
 
 <pre><code>用描述符来描述方法时，按照先参数列表，后返回值的顺序描述，参数列表按照参数的严格顺序放在一组小括号`()`
 之内。如方法void inc()的描述符为`()V`,方法java.lang.String()的描述符为`()Ljava/lang/String;`,
@@ -333,7 +333,7 @@ TestClass.class文件字节码内容。</p>
 
 <p><strong>方法访问标志</strong></p>
 
-<p><img src="/images/class_method_access_flags.jpg" alt="" /></p>
+<p><img src="/images/java_class/class_method_access_flags.jpg" alt="" /></p>
 
 <p><strong>注意事项：</strong></p>
 
@@ -431,7 +431,7 @@ var duoshuoQuery = {short_name:"mastery"};
     	</a></li>
      
     	<li><a href="/categories.html#java-ref">
-    		java <span>2</span>
+    		java <span>4</span>
     	</a></li>
     
   
