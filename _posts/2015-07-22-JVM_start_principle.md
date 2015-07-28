@@ -6,6 +6,11 @@ tagline: by Mastery
 tags: [Java]
 ---
 
+    1. JVM体系结构
+    2. JVM的生命周期
+    3. JVM启动
+        3.1 JVM启动代码分析
+
 <!--more-->
 
 # 1. JVM体系结构

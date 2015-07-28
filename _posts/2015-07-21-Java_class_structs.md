@@ -100,7 +100,7 @@ Class文件的魔数很有“浪漫气息”，值为`0xCAFEBABY`(咖啡宝贝).
 >在JDK的bin目录中，有一个专门用于分析Class文件字节码的工具：javap，下图列出了使用javap工具的-verbose参数输出的
 TestClass.class文件字节码内容。
 
-![javap输出的字节码内容](/images/class_javap_info.jpg)
+![javap输出的字节码内容](/images/java_class/class_javap_info.jpg)
 
 ### 1.3.2 常量池中的14种常量项的结构总表
 
