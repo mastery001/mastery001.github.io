@@ -9,9 +9,13 @@ http://mastery001.github.io/rss.xml
 http://mastery001.github.io/search.html
 http://mastery001.github.io/sitemap.txt
 http://mastery001.github.io/tags.html
+http://mastery001.github.io/2/index.html
 
+http://mastery001.github.io/notes/2015/08/04/notes_001
 http://mastery001.github.io/java/2015/07/27/Java_collection_List
 http://mastery001.github.io/java/2015/07/22/JVM_start_principle
 http://mastery001.github.io/java/2015/07/21/Java_class_structs
 http://mastery001.github.io/java/2015/07/20/c_on_Java
+http://mastery001.github.io/2012/07/29/Java_collections_Set
+http://mastery001.github.io/2012/07/29/Java_collections_Map
 http://mastery001.github.io/datastructure/2012/07/20/c_on_DataStructure

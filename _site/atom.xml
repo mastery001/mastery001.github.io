@@ -4,13 +4,34 @@
  <title>Dolphin</title>
  <link href="http://mastery001.github.io/" rel="self"/>
  <link href="http://mastery001.github.io"/>
- <updated>2015-07-28T17:40:19+08:00</updated>
+ <updated>2015-08-04T10:03:56+08:00</updated>
  <id>http://mastery001.github.io</id>
  <author>
    <name>Feng Ling</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>随手记</title>
+   <link href="http://mastery001.github.io/notes/2015/08/04/notes_001"/>
+   <updated>2015-08-04T00:00:00+08:00</updated>
+   <id>http://mastery001.github.io/notes/2015/08/04/notes_001</id>
+   <content type="html">&lt;!--more--&gt;
+
+&lt;p&gt;有时候，心里有事，很想找个人倾诉，于是打电话，”没人接啊，睡觉吧。”第二天，电话拨回来，可是你已经没了想说的情绪。
+有时候，看到一件衣服很喜欢，没适合码，过几天有了，你却已经失去了拥有的欲望。 
+曾经你喜欢上一个人，喜欢的死去活来，难以救药，喜欢到你以为再也不会这样去喜欢一个人了。
+几年后，却模糊的想不起来。 原来，所有那些激情、冲动、放不开、舍不得的当下，都会随着时间，在岁月里悄悄流逝，
+慢慢消散。所以，何必念念不忘，何必苦苦执着。 你是你自己的作者，又何必写那么难演的剧本。后来的后来，你会知道。
+那些所有你以为过不去的过去，都会过去。握不住的沙，不如扬了它。 有时候，是我们自己想得太多，才让自己如此难受。
+你的脾气赶走了很多人，但留下了最真的人。上天给了你这种活，因为它知道你强大到可以活下去。 
+别在喜悦时许诺，别在忧伤时回答，别在愤怒时做决定。生命中总有那么一段时光，充满不安，可是，除了勇敢面对，
+我们别无选择。 一个懂你泪水的朋友，胜过一群只懂你笑容的朋友。 有的人对你好，是因为你对他好，有的人对你好，
+是因为懂得你。 幸福，从来都没有捷径，也没有完美无瑕， 只有经营，只靠真心。&lt;/p&gt;
+
+</content>
+ </entry>
  
  <entry>
    <title>Java集合类--List篇</title>
@@ -530,6 +551,24 @@ TestClass.class文件字节码内容。&lt;/p&gt;
 &lt;p&gt;后面方括号内部的&lt;code&gt;3324K-&amp;gt;152K(3712K)&lt;/code&gt;含义是&lt;code&gt;GC前该内存区域已使用容量-&amp;gt;GC后该内存区域已使用容量（该内存区域总容量）&lt;/code&gt;。而在方括号之外的&lt;code&gt;3324K-&amp;gt;152K(11904K)&lt;/code&gt;表示&lt;code&gt;GC前Java堆已使用容量-&amp;gt;GC后Java堆已使用容量（Java堆总容量）&lt;/code&gt;。 
 再往后，&lt;code&gt;0.0025925 secs&lt;/code&gt;表示该内存区域GC所占用的时间，单位是秒。有的收集器会给出更具体的时间数据，如&lt;code&gt;[Times: user=0.01 sys=0.02,real=0.02 secs]&lt;/code&gt;，这里面的user,sys和real与Linux的time命令所输出的时间含义一致，分别代表用户态消耗的CPU时间，内核消耗的CPU时间和操作从开始到结束的墙钟时间（Wall Clock Time）。CPU时间与墙钟时间的区别是，墙钟时间包括各种非运算的等待耗时，例如等待磁盘I/O，等待线程阻塞，而CPU时间不包括这些耗时，但当系统有多CPU或者多核的话，多线程操作会叠加这些CPU时间，所以读者看到user或sys时间超过real时间是完全正常的。&lt;/p&gt;
 
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Java_collections_set</title>
+   <link href="http://mastery001.github.io/2012/07/29/Java_collections_Set"/>
+   <updated>2012-07-29T00:00:00+08:00</updated>
+   <id>http://mastery001.github.io/2012/07/29/Java_collections_Set</id>
+   <content type="html">
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Java_collections_map</title>
+   <link href="http://mastery001.github.io/2012/07/29/Java_collections_Map"/>
+   <updated>2012-07-29T00:00:00+08:00</updated>
+   <id>http://mastery001.github.io/2012/07/29/Java_collections_Map</id>
+   <content type="html">
 </content>
  </entry>
  
