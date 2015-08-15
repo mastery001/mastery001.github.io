@@ -11,6 +11,7 @@ http://mastery001.github.io/sitemap.txt
 http://mastery001.github.io/tags.html
 http://mastery001.github.io/2/index.html
 
+http://mastery001.github.io/maven/2015/08/15/buildMavenSpringMVCProject_InEclipse
 http://mastery001.github.io/notes/2015/08/04/notes_001
 http://mastery001.github.io/java/2015/07/27/Java_collection_List
 http://mastery001.github.io/java/2015/07/22/JVM_start_principle

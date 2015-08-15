@@ -5,10 +5,205 @@
         <description>Dolphin - Feng Ling</description>
         <link>http://mastery001.github.io</link>
         <link>http://mastery001.github.io</link>
-        <lastBuildDate>2015-08-04T10:03:56+08:00</lastBuildDate>
-        <pubDate>2015-08-04T10:03:56+08:00</pubDate>
+        <lastBuildDate>2015-08-15T14:10:16+08:00</lastBuildDate>
+        <pubDate>2015-08-15T14:10:16+08:00</pubDate>
         <ttl>1800</ttl>
 
+
+        <item>
+                <title>Eclipse下构建SpringMVC的Maven项目</title>
+                <description>&lt;p&gt;最近在学习Spring、SpringMVC、Maven，想在Eclipse下构建maven项目，不过由于是第一次操作且Eclipse默认支持的创建
+org-archetype-webapp需要修改许多的配置，所以望在此分享给大家，&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h1 id=&quot;section&quot;&gt;1.引言&lt;/h1&gt;
+
+&lt;p&gt;最近在学习Spring、SpringMVC、Maven，想在Eclipse下构建maven项目，不过由于是第一次操作且Eclipse默认支持的创建
+org-archetype-webapp需要修改许多的配置，所以望在此分享给大家，可以让以后在构建的过程中不用花太多时间。&lt;/p&gt;
+
+&lt;h1 id=&quot;eclipsemavenspringmvc&quot;&gt;2.eclipse下使用maven构建SpringMVC&lt;/h1&gt;
+
+&lt;p&gt;在eclipse官网下载的Eclipse IDE for Java EE Developers的版本默认是已经安装了m2e插件的，所以大家不需要去重新安装；&lt;/p&gt;
+
+&lt;p&gt;我使用的是maven3.3.3和Eclipse4.4.2&lt;/p&gt;
+
+&lt;p&gt;1)maven下载链接：&lt;a href=&quot;http://maven.apache.org/download.cgi&quot;&gt;maven3.3.3&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;2)eclipse下载链接：&lt;a href=&quot;http://www.eclipse.org/downloads/&quot;&gt;eclipse&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;3)如果eclipse下没有m2e的插件，可参考&lt;a href=&quot;http://blog.csdn.net/wode_dream/article/details/38052639&quot;&gt;eclipse下安装m2e&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Notes:最后将eclipse中的maven版本配置成本地的maven，配置方式如下图：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;在eclipse中点击Window-&amp;gt;Maven-&amp;gt;Installations-&amp;gt;Add;之后添加自己本地的maven路径就行；&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/config_maven_path.jpg&quot; alt=&quot;config_maven_path&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/config_maven_path1.jpg&quot; alt=&quot;config_maven_path1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;软件已经准备好了！那么我们开始构建maven项目吧！&lt;/p&gt;
+
+&lt;h2 id=&quot;mavenweb&quot;&gt;maven构建web项目&lt;/h2&gt;
+
+&lt;p&gt;点击Eclipse上方的File-&amp;gt;New-&amp;gt;Other-&amp;gt;Maven Project-&amp;gt;Next-&amp;gt;Next（这里默认就好）-&amp;gt;选择maven-archetype-webapp-&amp;gt;Next
+-&amp;gt;填写project信息-&amp;gt;Finish&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/create_maven_app.jpg&quot; alt=&quot;create_maven_app&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/create_maven_app1.jpg&quot; alt=&quot;create_maven_app1&quot; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Notes：由于Eclipse创建的Maven项目默认的web版本是2.3的，且没有加入servlet的依赖包，而且可能
+会没有`src/main/java`和`src/main/test`这两个目录，所以下面我们就来解决这个问题。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;jdk&quot;&gt;1)更改项目的默认jdk&lt;/h3&gt;
+
+&lt;p&gt;右键项目根路径-&amp;gt;点击Properties&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/config_path.jpg&quot; alt=&quot;config_path&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/config_path1.jpg&quot; alt=&quot;config_path1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/config_path2.jpg&quot; alt=&quot;config_path2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/config_path3.jpg&quot; alt=&quot;config_path3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/config_path4.jpg&quot; alt=&quot;config_path4&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如果上一步的Server Runtime没有选项，则可以如下图配置tomcat为服务器&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/config_path5.jpg&quot; alt=&quot;config_path5&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;2)更改配置文件&lt;/h3&gt;
+
+&lt;p&gt;切换视图为Navigator,&lt;strong&gt;[由于不方便截图，文字描述]选择Window-&amp;gt;Show View-&amp;gt;Other-&amp;gt;Navigator]&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/config_file.jpg&quot; alt=&quot;config_file&quot; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1.将org.eclipse.wst.common.component配置文件中的project-version的1.5.0修改为1.6.0
+
+2.将org.eclipse.wst.common.project.facet.core.xml的jst.web对应的version修改为2.5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样，我们的maven项目准备工作就做好了，下面我们开始编写SpringMVC的程序吧！&lt;/p&gt;
+
+&lt;h2 id=&quot;springmvc&quot;&gt;2.构建SpringMVC工程&lt;/h2&gt;
+
+&lt;h3 id=&quot;spring&quot;&gt;2.1 添加Spring依赖包&lt;/h3&gt;
+
+&lt;p&gt;用Maven POM Editor打开pom.xml，然后选择Dependencies视图，在Dependencies下点击Add&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Spring的依赖包：
+    Group Id: org.springframework
+    Artifact Id: spring-web
+    Version: 3.2.5.RELEASE
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;添加完毕后需要将远程包加载到本地来，右键项目根路径Run As-&amp;gt;Maven install&lt;/p&gt;
+
+&lt;p&gt;如果报错&lt;code&gt;-Dmaven.multiModuleProjectDirectory system propery is not set. Check $M2_HOME environment variable and mvn script match.&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;可以设一个环境变量M2_HOME指向你的maven安装目录
+然后在Window-&amp;gt;Preference-&amp;gt;Java-&amp;gt;Installed JREs-&amp;gt;Edit
+在Default VM arguments中设置
+-Dmaven.multiModuleProjectDirectory=$M2_HOME
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;webxmlspring-mvcxml&quot;&gt;2.2 编写web.xml和spring-mvc的xml&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;web.xml&lt;/code&gt; 如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    &amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&amp;gt;
+&amp;lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;  
+      xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;  
+      xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;  
+      version=&quot;3.0&quot;&amp;gt;  
+    &amp;lt;servlet&amp;gt;  
+	&amp;lt;servlet-name&amp;gt;spring-mvc&amp;lt;/servlet-name&amp;gt;  
+	&amp;lt;servlet-class&amp;gt;org.springframework.web.servlet.DispatcherServlet&amp;lt;/servlet-class&amp;gt;  
+    &amp;lt;/servlet&amp;gt;  
+  
+    &amp;lt;servlet-mapping&amp;gt;  
+	&amp;lt;servlet-name&amp;gt;spring-mvc&amp;lt;/servlet-name&amp;gt;  
+	&amp;lt;url-pattern&amp;gt;/&amp;lt;/url-pattern&amp;gt;  
+    &amp;lt;/servlet-mapping&amp;gt;  
+&amp;lt;/web-app&amp;gt;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;spring-mvc-servlet.xml&lt;/code&gt; 如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&amp;gt;
+&amp;lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;  
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;  
+    xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;  
+    xsi:schemaLocation=&quot;  
+	http://www.springframework.org/schema/beans       
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+	http://www.springframework.org/schema/context   
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd  
+	http://www.springframework.org/schema/mvc  
+	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd&quot;&amp;gt;  
+  
+    &amp;lt;context:component-scan base-package=&quot;cn.springmvc.controller&quot; /&amp;gt;  
+    &amp;lt;bean id=&quot;viewResolver&quot;  
+	class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&amp;gt;  
+	&amp;lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/views/&quot; /&amp;gt;  
+	&amp;lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot; /&amp;gt;  
+    &amp;lt;/bean&amp;gt;  
+&amp;lt;/beans&amp;gt;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;需要在WEB-INF目录下创建views目录并创建HelloWorld.jsp文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&amp;gt;
+    &amp;lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&amp;gt;
+    &amp;lt;html&amp;gt;
+    &amp;lt;head&amp;gt;
+    &amp;lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&amp;gt;
+    &amp;lt;title&amp;gt;Insert title here&amp;lt;/title&amp;gt;title&amp;gt;
+    &amp;lt;/meta&amp;gt;head&amp;gt;
+    &amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt;message:₵{message}&amp;lt;/h1&amp;gt;h1&amp;gt;
+    &amp;lt;/body&amp;gt;body&amp;gt;
+    &amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;并且需要在&lt;code&gt;src/main/java&lt;/code&gt;下建立一个控制层，包名cn.springmvc.controller，类名为Hello.java&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package cn.springmvc.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class Hello {
+    
+    @RequestMapping(&quot;/hello&quot;)
+    public String HelloWorld(Model model) {
+        model.addAttribute(&quot;message&quot; , &quot;Hello World!!&quot;);
+        return &quot;HelloWorld&quot;;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;运行程序&lt;/h3&gt;
+
+&lt;p&gt;右键项目根路径Run As-&amp;gt;Run On Server-&amp;gt;Next-&amp;gt;Finish&lt;/p&gt;
+
+&lt;p&gt;运行结果如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/maven_in_eclipse/result.jpg&quot; alt=&quot;result&quot; /&gt;&lt;/p&gt;
+
+</description>
+                <link>http://mastery001.github.io/maven/2015/08/15/buildMavenSpringMVCProject_InEclipse</link>
+                <guid>http://mastery001.github.io/maven/2015/08/15/buildMavenSpringMVCProject_InEclipse</guid>
+                <pubDate>2015-08-15T00:00:00+08:00</pubDate>
+        </item>
 
         <item>
                 <title>随手记</title>
