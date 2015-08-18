@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	
-	<title>判断两个单向链表是否相交</title>
+	<title>springmvc的Controller的方法约束</title>
     
 	
 	<meta name="author" content="Feng Ling">
@@ -142,8 +142,8 @@
 				
 				<div class="journal-cat-box">
 
-<a href="/categories.html#datastructure-ref" title="datastructure">
-	datastructure
+<a href="/categories.html#spring-ref" title="spring">
+	spring
 
 </a>
 </div>
@@ -151,114 +151,79 @@
 				</div>
 			</div>
 			<div class="journal-body">
-				<h1 class="journal-title">判断两个单向链表是否相交<span class="author">by Mastery</span>
+				<h1 class="journal-title">springmvc的Controller的方法约束<span class="author">by Mastery</span>
 				</h1>
 				<span class="the-article">
-				<pre><code>1.链表定义
-2.相交的理解
-3.解决方法
-    3.1 双重循环判断
-    3.2 判断最后一个结点是否相同
-    3.3 链表成环
+				<!--more-->
+
+<h2 id="controller">Controller内的方法限制传递的参数类型</h2>
+
+<pre><code>(1)`HttpServlet`的内置对象。{`ServletRequest`,`HttpServletRequest`,`ServletResponse`,`HttpServletResponse`}
+
+(2)`HttpSession`对象：当传递这种参数类型时必须保证会话是存在的，不能为null。
+	Notes：Session访问可能不是线程安全的，特别是在一个Servlet环境。如果多个请求被允许同时访问一个会话,考虑设置	
+	RequestMappingHandlerAdapter的“synchronizeOnSession”标志为“true”，
+
+(3)`org.springframework.web.context.request.WebRequest`或者`org.springframework.web.context.request.NativeWebRequest`。
+
+(4)`java.util.Locale`：当前请求的语言环境，LocaleResolver在Servlet环境中配置
+
+(5)`java.io.InputStream`/`java.io.Reader`：request中的内容
+
+(6)`java.io.OutputStream` / `java.io.Writer`：用于生成response对象中的内容
+
+(7)`java.security.Principal`:包含当前身份验证的用户
+
+(8)`HttpEntity&lt;?&gt;`:用于接收Http的请求头中的内容（headers和contents）.通过HttpMessageConverter来将请求数据转换成实体。
+
+(9)`java.util.Map` / `org.springframework.ui.Model` / `org.springframework.ui.ModelMap`:将后台需要的数据传递到视图层
+
+(10)`org.springframework.web.servlet.mvc.support.RedirectAttributes`:当完成一个数据库对应的操作时，需要给前台做出
+一个响应，为了防止刷新重复提交表单，不能采用request的方式，所以采用这种方式将信息临时存储在服务器端，使其可用于
+重定向之后的请求.
+
+(11)`org.springframework.validation.Errors` / `org.springframework.validation.BindingResult`:这个参数必须紧接在配置
+了@Valid注解的参数之后，有多少个配置了@Valid注解的参数就有多少个该对象。用于验证一个表单对象或者结果前的命令
+
+(12)`org.springframework.web.bind.support.SessionStatus`：可以通过该类型 status 对象显式结束表单的处理，
+这相当于触发 session 清除其中的通过 @SessionAttributes 定义的属性
+
+(13)`org.springframework.web.util.UriComponentsBuilder`:针对当前请求的主机，端口，scaheme,context path和servlet
+对应的映射路径来构造uri
 </code></pre>
 
-<!--more-->
+<p>下面是一些可传递的注解类型的参数：</p>
 
-<h1 id="section">1.链表定义</h1>
+<pre><code>(1)`@PathVariable`:注解用于访问uri上的模板参数，可接收一些基本类型，如int，long，String，Date等基本类型
 
-<p>链式存储结构存储线性表的方法是把存放数据元素的结点用指针域构造成链。指针是指向下一个节点的引用，由数据元素域和一个或若干个指针域组
-成的一个类称之为结点。链式存储结构的特点是数据元素间的逻辑关系表现在节点的链接关系上。</p>
+(2)`@MatrixVariable`:注解用于访问uri上的若干组键值对参数；该注解传递参数的uri有如下格式：
+    1."/cars;color=red;year=2012"
+    2. "color=red,green,blue"
+    3."color=red;color=green;color=blue"
 
-<h1 id="section-1">2.相交的理解</h1>
+(3)`@RequestParam`:注解用于访问request请求中参数，并会将值自动转换成注解对应的类型。
 
-<p>若两个链表<code>相交</code>则其相交后的结点必定是最后一个结点或者是第k个结点能使其后面的结点连结成一条直线的结点</p>
+(4)`@RequestHeader`:注解用于访问request HTTP请求头信息，并且值也会做相应的转换。
 
-<p>则可以得出若两个单向链表相交，则两个链表组成的形状一定为V型或Y型。</p>
+(5)`@RequestBody`:注解用于访问HTTP请求体中的内容。值通过HttpMessageConverter来转换。
 
-<h1 id="section-2">3.解决方法</h1>
-<pre><code>可以考虑用三种方式来实现：
-    (1)使用双重循环来遍历结点判断是否相同
-    (2)判断两个链表的最后一个结点是否相同
-    (3)将两个链表构成环
+(6)`@RequestPart`:注解用于访问当表单的enctype设置为'multipart/form-data'时的请求内容。
 </code></pre>
 
-<p>设定链表结点的数据结构为</p>
+<h2 id="controller-1">Controller内的方法支持的返回类型</h2>
 
-<pre><code>Node{
-    DataType data;  //数据元素域
-    Node next;      //指针域
-} 第一个结点的引用为root；
+<pre><code>(1)`ModelAndView Object`:
 </code></pre>
-
-<h2 id="section-3">3.1 双重循环判断</h2>
-<p>对两个单向链表进行循环，临界值：当第一个链表的结点与第二个链表的结点相同时返回true，反之返回false。</p>
-
-<pre><code>/**
-*  使用while进行循环迭代，条件为next不为null
-*/
-while root1 != null
-begin
-    while root2 != null
-    begin
-        if root1 == root2 then do return true
-        end if
-    end
-end
-return false
-</code></pre>
-
-<p>时间复杂度分析： 最好的情况下是root1==root2,此时只循环一次，时间复杂度为O(1),最坏情况下是两个链表的最后
-一个结点相等时，循环需要n*n次，即时间复杂度为O(n2).</p>
-
-<h2 id="section-4">3.2 判断最后一个结点是否相同</h2>
-<p>得到两个单向链表的最后一个结点，临界值：两个结点相同时返回true，反之返回false</p>
-
-<pre><code>/**
-*   用root1指代第一个链表的头结点，root2指代第二个链表的头结点
-*/
-while root1 != null
-begin
-    root1 = root1.next
-end
-
-while root2 != null
-begin
-    root2 = root2.next
-end
-
-if root1 == root2 then return true
-else 
-    return false
-end if
-</code></pre>
-
-<p>时间复杂度分析： 该算法的时间复杂度在最好和最坏的情况下都是O(n)，都必须循环n次到尾结点。</p>
-
-<h2 id="section-5">3.3 链表成环</h2>
-<p>假设两个链表尾部相连能够构成环，则一个链表的首结点遍历到末尾结点必然是另一个链表的首结点。</p>
-
-<pre><code>/**
-*   该程序的先觉条件是必须在两个链表已经构成环的基础上可执行
-*/
-while root1 != null
-begin 
-    root1 = root1.next
-end
-if root1 == root2 then return true
-return false
-</code></pre>
-
-<p>时间复杂度分析： 该算法的时间复杂度在最好和最坏的情况下都是O(n)，都必须循环n次到尾结点。</p>
 
 				</span>
-				<div class="journal-date">Published 20 July 2012</div>
+				<div class="journal-date">Published 16 August 2015</div>
 				<div class="journal-tags">
 				
 				
 	 
-		<a class="tag-cont" href="/tags.html#DataStructure-ref">
+		<a class="tag-cont" href="/tags.html#Spring-ref">
 			<div class="tag-l"></div>
-			<div class="tag-c">DataStructure</div>
+			<div class="tag-c">Spring</div>
 			<div class="tag-r"></div>
 		</a>
 	
@@ -276,7 +241,7 @@ return false
 
 
   <div id="comments">
-    <div class="ds-thread" data-thread-key="/datastructure/2012/07/20/c_on_DataStructure"  data-title="判断两个单向链表是否相交 - Dolphin"></div>
+    <div class="ds-thread" data-thread-key="/spring/2015/08/16/SpringMVC_Controller_MethodConstraint"  data-title="springmvc的Controller的方法约束 - Dolphin"></div>
 </div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->

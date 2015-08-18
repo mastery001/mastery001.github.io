@@ -4,13 +4,81 @@
  <title>Dolphin</title>
  <link href="http://mastery001.github.io/" rel="self"/>
  <link href="http://mastery001.github.io"/>
- <updated>2015-08-15T14:10:16+08:00</updated>
+ <updated>2015-08-17T09:42:30+08:00</updated>
  <id>http://mastery001.github.io</id>
  <author>
    <name>Feng Ling</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>springmvc的Controller的方法约束</title>
+   <link href="http://mastery001.github.io/spring/2015/08/16/SpringMVC_Controller_MethodConstraint"/>
+   <updated>2015-08-16T00:00:00+08:00</updated>
+   <id>http://mastery001.github.io/spring/2015/08/16/SpringMVC_Controller_MethodConstraint</id>
+   <content type="html">&lt;!--more--&gt;
+
+&lt;h2 id=&quot;controller&quot;&gt;Controller内的方法限制传递的参数类型&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;(1)`HttpServlet`的内置对象。{`ServletRequest`,`HttpServletRequest`,`ServletResponse`,`HttpServletResponse`}
+
+(2)`HttpSession`对象：当传递这种参数类型时必须保证会话是存在的，不能为null。
+	Notes：Session访问可能不是线程安全的，特别是在一个Servlet环境。如果多个请求被允许同时访问一个会话,考虑设置	
+	RequestMappingHandlerAdapter的“synchronizeOnSession”标志为“true”，
+
+(3)`org.springframework.web.context.request.WebRequest`或者`org.springframework.web.context.request.NativeWebRequest`。
+
+(4)`java.util.Locale`：当前请求的语言环境，LocaleResolver在Servlet环境中配置
+
+(5)`java.io.InputStream`/`java.io.Reader`：request中的内容
+
+(6)`java.io.OutputStream` / `java.io.Writer`：用于生成response对象中的内容
+
+(7)`java.security.Principal`:包含当前身份验证的用户
+
+(8)`HttpEntity&amp;lt;?&amp;gt;`:用于接收Http的请求头中的内容（headers和contents）.通过HttpMessageConverter来将请求数据转换成实体。
+
+(9)`java.util.Map` / `org.springframework.ui.Model` / `org.springframework.ui.ModelMap`:将后台需要的数据传递到视图层
+
+(10)`org.springframework.web.servlet.mvc.support.RedirectAttributes`:当完成一个数据库对应的操作时，需要给前台做出
+一个响应，为了防止刷新重复提交表单，不能采用request的方式，所以采用这种方式将信息临时存储在服务器端，使其可用于
+重定向之后的请求.
+
+(11)`org.springframework.validation.Errors` / `org.springframework.validation.BindingResult`:这个参数必须紧接在配置
+了@Valid注解的参数之后，有多少个配置了@Valid注解的参数就有多少个该对象。用于验证一个表单对象或者结果前的命令
+
+(12)`org.springframework.web.bind.support.SessionStatus`：可以通过该类型 status 对象显式结束表单的处理，
+这相当于触发 session 清除其中的通过 @SessionAttributes 定义的属性
+
+(13)`org.springframework.web.util.UriComponentsBuilder`:针对当前请求的主机，端口，scaheme,context path和servlet
+对应的映射路径来构造uri
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是一些可传递的注解类型的参数：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(1)`@PathVariable`:注解用于访问uri上的模板参数，可接收一些基本类型，如int，long，String，Date等基本类型
+
+(2)`@MatrixVariable`:注解用于访问uri上的若干组键值对参数；该注解传递参数的uri有如下格式：
+    1.&quot;/cars;color=red;year=2012&quot;
+    2. &quot;color=red,green,blue&quot;
+    3.&quot;color=red;color=green;color=blue&quot;
+
+(3)`@RequestParam`:注解用于访问request请求中参数，并会将值自动转换成注解对应的类型。
+
+(4)`@RequestHeader`:注解用于访问request HTTP请求头信息，并且值也会做相应的转换。
+
+(5)`@RequestBody`:注解用于访问HTTP请求体中的内容。值通过HttpMessageConverter来转换。
+
+(6)`@RequestPart`:注解用于访问当表单的enctype设置为'multipart/form-data'时的请求内容。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;controller-1&quot;&gt;Controller内的方法支持的返回类型&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;(1)`ModelAndView Object`:
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Eclipse下构建SpringMVC的Maven项目</title>
