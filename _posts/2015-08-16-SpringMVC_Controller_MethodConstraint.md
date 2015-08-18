@@ -1,7 +1,7 @@
 ---
 layout: post
 category: Spring
-title: springmvc的Controller的方法约束
+title: SpringMVC的Controller的方法约束
 tagline: by Mastery
 tags: [Spring]
 ---
