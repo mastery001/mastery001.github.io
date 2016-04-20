@@ -4,7 +4,7 @@
  <title>Dolphin</title>
  <link href="http://mastery001.github.io/" rel="self"/>
  <link href="http://mastery001.github.io"/>
- <updated>2015-08-17T09:42:30+08:00</updated>
+ <updated>2016-04-20T20:42:05+08:00</updated>
  <id>http://mastery001.github.io</id>
  <author>
    <name>Feng Ling</name>
@@ -13,7 +13,7 @@
 
  
  <entry>
-   <title>springmvc的Controller的方法约束</title>
+   <title>SpringMVC的Controller的方法约束</title>
    <link href="http://mastery001.github.io/spring/2015/08/16/SpringMVC_Controller_MethodConstraint"/>
    <updated>2015-08-16T00:00:00+08:00</updated>
    <id>http://mastery001.github.io/spring/2015/08/16/SpringMVC_Controller_MethodConstraint</id>
@@ -75,8 +75,26 @@
 
 &lt;h2 id=&quot;controller-1&quot;&gt;Controller内的方法支持的返回类型&lt;/h2&gt;
 
-&lt;pre&gt;&lt;code&gt;(1)`ModelAndView Object`:
+&lt;pre&gt;&lt;code&gt;(1)`ModelAndView Object`:返回对应的视图层和Model层的数据.
+
+(2)`Model Object`:返回对应设定的Model层的数据,主要包含Spring封装好的model和modelMap，以及java.util.Map
+当没有视图返回时视图名称由RequestToViewNameTranslator决定，一般是配置了RequestMapping的映射路径。
+
+(3)`Map Object`:与Model类型相似。
+
+(4)`View Object`:返回对应的视图对象，并且可以通过`render(Map&amp;lt;String ,?&amp;gt; , request , response)`参数向前台传递
+属性。
+
+(5)`String Object`:返回一个视图名称，Spring会通过相应的ViewResolver来解析
+
+(6)`void`:返回空值。
+
+(7)`other type`:其他任何被认为不是属于上述的类型的返回类型，使用@ModelAttribute在方法级别上指定名称。
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;以上内容仅属于个人观点，有错误的地方希望各位同仁能加以指正！谢谢！&lt;/p&gt;
+&lt;/blockquote&gt;
 </content>
  </entry>
  

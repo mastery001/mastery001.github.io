@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	
-	<title>springmvc的Controller的方法约束</title>
+	<title>SpringMVC的Controller的方法约束</title>
     
 	
 	<meta name="author" content="Feng Ling">
@@ -151,7 +151,7 @@
 				</div>
 			</div>
 			<div class="journal-body">
-				<h1 class="journal-title">springmvc的Controller的方法约束<span class="author">by Mastery</span>
+				<h1 class="journal-title">SpringMVC的Controller的方法约束<span class="author">by Mastery</span>
 				</h1>
 				<span class="the-article">
 				<!--more-->
@@ -212,8 +212,26 @@
 
 <h2 id="controller-1">Controller内的方法支持的返回类型</h2>
 
-<pre><code>(1)`ModelAndView Object`:
+<pre><code>(1)`ModelAndView Object`:返回对应的视图层和Model层的数据.
+
+(2)`Model Object`:返回对应设定的Model层的数据,主要包含Spring封装好的model和modelMap，以及java.util.Map
+当没有视图返回时视图名称由RequestToViewNameTranslator决定，一般是配置了RequestMapping的映射路径。
+
+(3)`Map Object`:与Model类型相似。
+
+(4)`View Object`:返回对应的视图对象，并且可以通过`render(Map&lt;String ,?&gt; , request , response)`参数向前台传递
+属性。
+
+(5)`String Object`:返回一个视图名称，Spring会通过相应的ViewResolver来解析
+
+(6)`void`:返回空值。
+
+(7)`other type`:其他任何被认为不是属于上述的类型的返回类型，使用@ModelAttribute在方法级别上指定名称。
 </code></pre>
+
+<blockquote>
+  <p>以上内容仅属于个人观点，有错误的地方希望各位同仁能加以指正！谢谢！</p>
+</blockquote>
 
 				</span>
 				<div class="journal-date">Published 16 August 2015</div>
@@ -241,7 +259,7 @@
 
 
   <div id="comments">
-    <div class="ds-thread" data-thread-key="/spring/2015/08/16/SpringMVC_Controller_MethodConstraint"  data-title="springmvc的Controller的方法约束 - Dolphin"></div>
+    <div class="ds-thread" data-thread-key="/spring/2015/08/16/SpringMVC_Controller_MethodConstraint"  data-title="SpringMVC的Controller的方法约束 - Dolphin"></div>
 </div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
