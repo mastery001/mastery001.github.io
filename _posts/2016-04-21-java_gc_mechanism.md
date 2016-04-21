@@ -1,15 +1,17 @@
 ---
 layout: post
 title: Java GC机制
-tags: [Java,GC]
+tags: Java,GC
 category: Java
 ---
 
-<div class="toc"></div>
+<!--more-->
 
 #存储划分
 
+
 ##垃圾回收算法
+
 -  1、引用计数(Reference Counting)
 -  2、标记清除(Mark-Sweep)
 -  3、复制(Copying)
