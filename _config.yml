@@ -17,16 +17,16 @@ title: "Dolphin"
 email: "zlfbasic@gmail.com"
 description: "Developer"
 github_username:  "mastery001"
-swiftype_searchId: "ncwR9a8S9CTx2q9SgsJm"
+swiftype_searchId: "7tCpivPq9iW18Es2nYKB"
 disqus_shortname: "mastery"
 
 
 
-#url: "http://mastery001.github.io"
-#imgrepo: "http://mastery001.github.io/static/img"
+url: "http://mastery001.github.io"
+imgrepo: "http://mastery001.github.io/static/img"
 
 
-url: "http://10.58.88.155:4000"
-imgrepo: "http://10.58.88.155:4000/static/img"
-gems: [jekyll-paginate]
+#url: "http://10.58.88.155:4000"
+#imgrepo: "http://10.58.88.155:4000/static/img"
+#gems: [jekyll-paginate]
 
