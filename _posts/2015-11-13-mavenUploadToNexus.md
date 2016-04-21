@@ -6,7 +6,7 @@ tagline: by Mastery
 tags: [Maven]
 ---
 
-<!--more-->
+<div class="toc"></div>
 
 最近在公司新开发了一个公用模块，然后需要上传到公司自己的maven私服nexus上，中途遇到蛮多的困难的。所以想在这里总结一下自己的错误，以防以后再犯。
 
