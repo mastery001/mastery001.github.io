@@ -1,14 +1,15 @@
 ---
 layout: post
 title: Java GC机制
-tags: Java,GC
-category: Java
+tags: [Java , GC]
+categories: Java
 ---
+
+Java GC机制是JVM中一个最重要的部分，了解GC机制也对了解JVM中内存分布，日志查看等原理有所了解
 
 <!--more-->
 
 #存储划分
-
 
 ##垃圾回收算法
 
