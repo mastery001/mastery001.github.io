@@ -6,11 +6,11 @@ tagline: by Mastery
 tags: [Maven]
 ---
 
-<div class="toc"></div>
-
 最近在公司新开发了一个公用模块，然后需要上传到公司自己的maven私服nexus上，中途遇到蛮多的困难的。所以想在这里总结一下自己的错误，以防以后再犯。
 
-# 上传至私服的准备工作--配置
+<!--more-->
+
+# 上传至私服的准备工作--配置 #
 
 1.模块pom文件的配置
 	
@@ -77,11 +77,11 @@ tags: [Maven]
 ![eclipse下部署maven代码到nexus私服](/images/maven_to_nexus/maven_to_nexus.jpg)
 
 
-# 问题总结
+# 问题总结 #
 
 一般执行deploy -X会打印出出错信息至控制台，报错一般都会返回Return Code,【400、401、402、403、404、405、500、502、503】
 
-## 1. 405错误
+## 1. 405错误 ##
 问题分析：
 
 405错误的含义是“用来访问本页面的HTTP方法不被允许”，所以这个问题一般是配置上的repository的地址写错了，或者是端口写错了。
@@ -90,7 +90,7 @@ tags: [Maven]
 
 检查repository的地址是否写错并改正
 
-## 2. 401或403错误
+## 2. 401或403错误 ##
 
 问题分析：
 
@@ -102,8 +102,8 @@ tags: [Maven]
 
 如果是使用deployment账号登录的朋友请参考
 《[maven报错：mvn deploy ）](http://blog.sina.com.cn/s/blog_7833c8450100u2bz.html)》
-
-## 3. 400错误
+ 
+## 3. 400错误 ##
 
 问题分析：
 
@@ -116,11 +116,11 @@ maven的部署是有针对性的，假设只是配置了releases库，但是模�
 将releases库和snapshots库两个配置都配置上，或者一一对应的配置。
 
 
-## 4. 500错误
+## 4. 500错误 ##
 
 错误原因：服务器满了
 
-## 5. 402错误
+## 5. 402错误 ##
 
 错误原因：你使用的是nexus的Professional版本，但是你的license已经过期了，需要重新注册。
 
