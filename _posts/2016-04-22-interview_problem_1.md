@@ -22,7 +22,7 @@ categories: Interview
 
 无论创建对象的方式是怎样的，其原理都是通过**`类加载器将该类对应的class文件加载到JVM内存区域`**([类加载机制](http://xiaohuishu.net/2015/06/15/%E6%8E%A2%E7%A9%B6JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/))；并在内存中生成一个代表这个类的java.lang.Class对象，做为这个类的各种数据的访问入口(对于Hotspot虚拟机来讲，Class对象存放在方法区)。
 
-## HashMap的原理以及如何实现线程安全的HashMap ##
+## HashMap原理 ##
 >HashMap是Java语言中一种基于散列表(数组+链表)实现的数据结构，其典型的运用了空间换时间的策略，采用hash算法来定位数组下标方式使得查询的时间复杂度最优情况下为O(1).
 
 ![hashmap散列结构](/images/interview1/hashmap.png)
@@ -40,12 +40,75 @@ HashMap需要注意的几点
 3. [HashMap原理 ](http://blog.chinaunix.net/uid-11775320-id-3143919.html)
 
 ### 线程安全的HashMap实现 ###
+>HashMap在Java官方文档中是被列为线程不安全的，那么如何自己实现线程安全的HashMap呢？
+
+有以下几种方式：
+
+1. 使用synchronized或java.util.concurrent.locks.Lock对象给get和put操作加锁
+2. 使用java.util.concurrent.locks.ReadWriteLock的读写锁，使读写锁分离提高效率
+
+附上方法2的代码：
+
+	import java.util.HashMap;
+	import java.util.Map;
+	import java.util.concurrent.locks.Lock;
+	import java.util.concurrent.locks.ReadWriteLock;
+	import java.util.concurrent.locks.ReentrantReadWriteLock;
+	
+	/**
+	 * 线程安全的HashMap
+	 * 
+	 * @author mastery
+	 *
+	 *         2016年4月22日 下午3:49:56
+	 */
+	public class SafeThreadHashMap<K, V> extends HashMap<K, V> implements Map<K, V> {
+
+		/**
+		 * 2016年4月22日 下午3:52:04
+		 */
+		private static final long serialVersionUID = 4530811996637218105L;
+	
+		private final ReadWriteLock lock = new ReentrantReadWriteLock();
+	
+		private final Lock readLock = lock.readLock();
+		private final Lock writeLock = lock.writeLock();
+	
+		public SafeThreadHashMap() {
+			super();
+		}
+	
+		public SafeThreadHashMap(int initialCapacity) {
+			super(initialCapacity);
+		}
+	
+		@Override
+		public V get(Object key) {
+			readLock.lock();
+			try {
+				return super.get(key);
+			} finally {
+				readLock.unlock();
+			}
+			
+		}
+	
+		@Override
+		public V put(K key, V value) {
+			writeLock.lock();
+			try {
+				return super.put(key, value);
+			} finally {
+				writeLock.unlock();
+			}
+			
+		}
+	}
 
 
+## 字符逆序问题 ##
+>abc,def转换成def,abc，要求空间只有O(1)
 
-
-
-## abc,def转换成def,abc，要求空间只有O(1) ##
 这个是一个典型的字符串逆转的题目，面试的时候想到用栈来实现只允许O(1)空间的要求，但是会用到一份临时空间（不确定栈到底需不需要占一份空间）；下面附上解题思路：
 
 -  将被逗号分隔的每个单词先倒序，变成cba,fed
