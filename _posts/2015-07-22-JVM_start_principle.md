@@ -3,7 +3,7 @@ layout: post
 category: Java
 title: JVM启动工作原理
 tagline: by Mastery
-tags: [Java]
+tags: [JVM]
 ---
 
     1. JVM体系结构

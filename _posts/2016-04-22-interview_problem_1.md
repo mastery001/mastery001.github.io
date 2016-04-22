@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 记面试题目（1）
-tags: [problem]
+tags: [JAVA,Collections,DataStructure,Thread]
 categories: Interview
 ---
 

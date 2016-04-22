@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Java GC机制
-tags: [Java , GC]
+tags: [JVM , GC]
 categories: Java
 ---
 

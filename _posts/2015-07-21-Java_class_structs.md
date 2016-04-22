@@ -2,7 +2,7 @@
 layout: post
 categories: Java
 title: JavaClass文件结构
-tags: Java
+tags: JVM
 ---
     
     1.Class文件概述
