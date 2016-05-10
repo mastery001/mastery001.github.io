@@ -175,3 +175,9 @@ volatile的原子性和可见性只是作用于被定义为volatile的变量和�
 
 
 ## MySQL索引的实现 ##
+
+附上几篇认为写的蛮好的mysql索引原理的文章：
+
+-  [MySQL索引背后的数据结构及算法原理](http://www.uml.org.cn/sjjm/201107145.asp#nav-2) --详细的介绍了mysql索引的实现，并解释为何使用B树结构
+-  [mysql索引结构原理、性能分析与优化](http://www.tuicool.com/articles/ZRN3qu)
+-  [Mysql索引的设计、使用和优化](http://c.biancheng.net/cpp/html/1468.html)
