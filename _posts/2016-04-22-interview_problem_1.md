@@ -160,4 +160,24 @@ HashMap需要注意的几点
 
 ## volatile的作用，缺陷
 
-## MySQL索引的实现
+- `可见性`：对一个volatile变量的读，总是能看到(任意线程)对这个volatile变量的写入。意思为工作线程总能第一时间得到主线程的该变量的值。
+- `原子性`：对任意单个volatile变量的读/写操作具有原子性，但类似于自加这种复合操作不具有原子性。
+
+有关volatile的解释下面有几篇个人觉得比较好的解释：
+
+-  [深入理解Java内存模型（四）——volatile](http://www.infoq.com/cn/articles/java-memory-model-4/)
+-  [java中volatile关键字的含义](http://www.cnblogs.com/aigongsi/archive/2012/04/01/2429166.html)
+-  [关于volatile关键字](http://xiaohuishu.net/2015/07/29/%E5%85%B3%E4%BA%8Evolatile%E5%85%B3%E9%94%AE%E5%AD%97/)
+
+***volatile的缺陷：***
+
+volatile的原子性和可见性只是作用于被定义为volatile的变量和简单的对volatile变量的原子操作（例如简单的set和get操作），当对该变量进行运算时则可能会无法保证其特性。
+
+
+## MySQL索引的实现 ##
+
+附上几篇认为写的蛮好的mysql索引原理的文章：
+
+-  [MySQL索引背后的数据结构及算法原理](http://www.uml.org.cn/sjjm/201107145.asp#nav-2) --详细的介绍了mysql索引的实现，并解释为何使用B树结构
+-  [mysql索引结构原理、性能分析与优化](http://www.tuicool.com/articles/ZRN3qu)
+-  [Mysql索引的设计、使用和优化](http://c.biancheng.net/cpp/html/1468.html)
