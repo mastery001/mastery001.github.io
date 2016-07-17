@@ -5,12 +5,12 @@ tags: Maven Spring
 categories: Spring
 ---
 
-<div class="toc"></div>
+
+本篇blog属于个人工作时的经验之谈，在使用Maven进行项目构建Spring项目中遇到的启动问题，纯属个人见解。
 
 <!--more-->
 
 # 项目结构
-
 在实际开发中，往往是用Maven来进行构建项目，一个项目一般都由多个Maven module组成，例如：
 
 * xxx-base(项目启动module，以下为当前module依赖的module)
@@ -21,7 +21,7 @@ categories: Spring
 xxx-service的spring配置文件：
 
 ```xml
-<context:component-scan base-package="com.letv.lepush.interfaces" />
+<context:component-scan base-package="xxx.xxx.xxx" />
 
 <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="locations">
@@ -46,7 +46,6 @@ redis.pool.maxTotal=1500
 ```
 
 # 项目启动
-
 xxx-base的spring配置文件：
 
 1. 报错方式配置
