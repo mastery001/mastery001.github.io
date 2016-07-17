@@ -1,8 +1,8 @@
-##[点我查看中文说明](https://github.com/dubuyuye/blog/blob/gh-pages/README_zh_CN.md)
+##[点我查看中文说明](https://github.com/mastery001/mastery001.github.io/blob/master/README_zh_CN.md)
 
 # Blog Address
 
-<http://blog.rainyalley.com/>
+<http://mastery001.github.io/>
 
 
 # Must Modify

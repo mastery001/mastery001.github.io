@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 记面试题目（1）
-tags: [JAVA,Collections,DataStructure,Thread]
+tags: JAVA Collections DataStructure Thread
 categories: Interview
 ---
 
@@ -11,7 +11,7 @@ categories: Interview
 
 <!--more-->
 
-## Java反射的原理 ##
+## Java反射的原理
 >Reflection(反射)机制是jdk1.5之后新增的功能，简单来说，反射机制就是在程序运行时能够获取自身的信息；仅知道一个类的全限定类名即可获取该类中的方法，构造器，字段，类型，修饰符等所以信息。
 
 在Java中，创建对象的方式有以下几种
@@ -22,7 +22,7 @@ categories: Interview
 
 无论创建对象的方式是怎样的，其原理都是通过**`类加载器将该类对应的class文件加载到JVM内存区域`**([类加载机制](http://xiaohuishu.net/2015/06/15/%E6%8E%A2%E7%A9%B6JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/))；并在内存中生成一个代表这个类的java.lang.Class对象，做为这个类的各种数据的访问入口(对于Hotspot虚拟机来讲，Class对象存放在方法区)。
 
-## HashMap原理 ##
+## HashMap原理
 >HashMap是Java语言中一种基于散列表(数组+链表)实现的数据结构，其典型的运用了空间换时间的策略，采用hash算法来定位数组下标方式使得查询的时间复杂度最优情况下为O(1).
 
 ![hashmap散列结构](/images/interview1/hashmap.png)
@@ -39,7 +39,7 @@ HashMap需要注意的几点
 2. [深入理解HashMap(及hash函数的真正巧妙之处)](http://www.360doc.com/content/10/0505/19/495229_26234886.shtml)
 3. [HashMap原理 ](http://blog.chinaunix.net/uid-11775320-id-3143919.html)
 
-### 线程安全的HashMap实现 ###
+### 线程安全的HashMap实现
 >HashMap在Java官方文档中是被列为线程不安全的，那么如何自己实现线程安全的HashMap呢？
 
 有以下几种方式：
@@ -68,7 +68,7 @@ HashMap需要注意的几点
 		 * 2016年4月22日 下午3:52:04
 		 */
 		private static final long serialVersionUID = 4530811996637218105L;
-	
+
 		private final ReadWriteLock lock = new ReentrantReadWriteLock();
 	
 		private final Lock readLock = lock.readLock();
@@ -106,7 +106,7 @@ HashMap需要注意的几点
 	}
 
 
-## 字符逆序问题 ##
+## 字符逆序问题
 >abc,def转换成def,abc，要求空间只有O(1)
 
 这个是一个典型的字符串逆转的题目，面试的时候想到用栈来实现只允许O(1)空间的要求，但是会用到一份临时空间（不确定栈到底需不需要占一份空间）；下面附上解题思路：
@@ -158,6 +158,6 @@ HashMap需要注意的几点
 
 以上的步骤属于个人见解。
 
-## volatile的作用，缺陷 ##
+## volatile的作用，缺陷
 
-## MySQL索引的实现 ##
+## MySQL索引的实现
