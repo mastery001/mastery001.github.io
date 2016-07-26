@@ -3,7 +3,7 @@ layout: post
 category: Java
 title: Java集合类--List篇
 tagline: by Mastery
-tags: [Java,Collections]
+tags: [Collections]
 ---
 
     1. 集合类概述

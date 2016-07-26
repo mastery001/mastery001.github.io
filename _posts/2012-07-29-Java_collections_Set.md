@@ -1,6 +1,6 @@
 ---
 layout: post
 title: Java_collections_Set
-tags: Java Collections
+tags: Collections
 categories: Java
 ---

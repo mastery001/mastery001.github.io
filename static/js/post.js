@@ -8,7 +8,7 @@
 $(document).ready(function() {
     generateContent();
     share();
-    disqus();
+    //disqus();
 });
 
 /**
@@ -37,3 +37,4 @@ function disqus(){
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     document.getElementsByTagName("script")[0].parentNode.appendChild(dsq);
 }
+

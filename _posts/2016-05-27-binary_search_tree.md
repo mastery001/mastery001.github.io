@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 二叉查找树的Java实现
-tags: [JAVA,DataStructure]
+tags: [Java,Tree]
 categories: DataStructure
 ---
 

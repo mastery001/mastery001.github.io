@@ -1,6 +1,6 @@
 ---
 layout: post
-category: Maven
+category: Soft
 title: 使用maven在eclipse中上传code到私服
 tagline: by Mastery
 tags: [Maven]
