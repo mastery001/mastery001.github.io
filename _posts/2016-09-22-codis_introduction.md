@@ -25,7 +25,12 @@ Redis缺点：
 - Twitter的Twemproxy
 - 豌豆荚工程师开发的Codis（和Codis升级后的RebornDB）
 
-至于选择是Twemproxy还是Codis看各个业务自己的需求，目前我们项目使用的就是Codis。
+至于选择是Twemproxy还是Codis看各个业务自己的需求，目前博主项目使用的就是Codis。
+
+为什么选择Codis：
+
+- 业务需要，数据可能需要迁移，机器横向扩容
+- 经过线上测试，Codis的升级版Reborn在pipline操作的性能比Codis慢了几十倍
 
 附上几个链接：
 
@@ -46,7 +51,7 @@ Codis的安装请参考官方步骤：[Build Codis](https://github.com/CodisLabs
 
 Codis的部署可参考官网的步骤：[Codis部署](https://github.com/CodisLabs/codis/blob/release2.0/doc/tutorial_zh.md#部署)
 
-我这里有一个一键执行的脚本示例大家可以参考：[Codis sample](https://github.com/mastery001/codis-spring-java/tree/master/sample)
+博主这里有一个一键执行的脚本示例大家可以参考：[Codis sample](https://github.com/mastery001/codis-spring-java/tree/master/sample)
 
 **Notes:**脚本中的配置需要改为自己的zookeeper地址和一些Redis服务IP
 
@@ -113,13 +118,13 @@ Slots
 
 1. 初始化slot时未全部分配至所有group
 
-这个问题我在第一次使用的时候遇到过，我分配了6个group，但是在初始化slot的时候我的配置是：
+这个问题博主在第一次使用的时候遇到过，分配了6个group，但是在初始化slot的时候配置是：
 
 ```xml
 ../bin/codis-config -c  config.ini slot range-set 0 511 1 online
 ../bin/codis-config -c  config.ini slot range-set 512 1023 2 online
 ```
-只分配了两个group，这样导致我的key只能存储在前两个group中，另外4个group都不会存储了。
+只分配了两个group，这样导致key只能存储在前两个group中，另外4个group都不会存储了。
 
 **解决方案**：
 
@@ -132,4 +137,10 @@ Slots
 
 具体执行方式请google解决，我尚未尝试过
 
+# For Java Users
+>Codis的作者开发了新一代的升级版Codis--Reborn，并为Java开发者提供了相应的[jodis](https://github.com/CodisLabs/jodis)和[Reborn-java](https://github.com/reborndb/reborn-java)
 
+这里博主向大家推荐一个在Reborn-java的基础上对Spring-data-redis的支持的[codis-spring-java](https://github.com/mastery001/codis-spring-java)
+
+- 通过简单的配置即可与Spring-data-redis进行兼容
+- 配置zk地址即可自行管理Redis连接池
