@@ -23,12 +23,12 @@ disqus_shortname: "mastery"
 excerpt_separator: <!--more-->
 
 
-#url: "http://blog.ziwenzou.com"
-#imgrepo: "http://blog.ziwenzou.com/static/img"
+url: "http://blog.ziwenzou.com"
+imgrepo: "http://blog.ziwenzou.com/static/img"
 
 
-url: "http://127.0.0.1:4000"
-imgrepo: "http://127.0.0.1:4000/static/img"
-gems: [jekyll-paginate]
+#url: "http://127.0.0.1:4000"
+#imgrepo: "http://127.0.0.1:4000/static/img"
+#gems: [jekyll-paginate]
 
 
