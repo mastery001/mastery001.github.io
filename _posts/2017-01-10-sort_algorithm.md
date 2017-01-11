@@ -96,9 +96,9 @@ Java代码详见：[HeapSort.java](https://github.com/mastery001/study/blob/mast
 
 ```
 时间复杂度：
-    1. 最佳：O(n log(n))
-    2. 平均：O(n log(n))
-    3. 最坏：O(n log(n))
+    1. 最佳：O(nlog(n))
+    2. 平均：O(nlog(n))
+    3. 最坏：O(nlog(n))
 空间复杂度：O(1)
 ```
 			
@@ -135,8 +135,8 @@ Java代码详见：[QuickSort.java](https://github.com/mastery001/study/blob/mas
 						
 ```
 时间复杂度：
-    1. 最佳：O(n log(n))
-    2. 平均：O(n log(n))
+    1. 最佳：O(nlog(n))
+    2. 平均：O(nlog(n))
     3. 最坏：O(n^2)    
 空间复杂度：O(n log(n))
 ```
@@ -152,8 +152,8 @@ Java代码详见：[MergeSort.java](https://github.com/mastery001/study/blob/mas
 									
 ```
 时间复杂度：
-    1. 最佳：O(n log(n))
-    2. 平均：O(n log(n))
+    1. 最佳：O(nlog(n))
+    2. 平均：O(nlog(n))
     3. 最坏：O(n^2)    
 空间复杂度：O(n)
 ```
@@ -169,6 +169,7 @@ Java代码详见：[RadixSort.java](https://github.com/mastery001/study/blob/mas
     2. 平均：O(nk)
     3. 最坏：O(nk)
 空间复杂度：O(n+k)
+k为无序序列中最大值的数位10^k，例如98->10^2;故k=2
 ```
 
 # 总结
