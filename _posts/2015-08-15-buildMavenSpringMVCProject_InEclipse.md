@@ -1,6 +1,6 @@
 ---
 layout: post
-category: Soft
+category: Spring
 title: Eclipse下构建SpringMVC的Maven项目
 tagline: by Mastery
 tags: [Maven ,Eclipse , Spring]

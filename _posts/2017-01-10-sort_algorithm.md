@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 排序算法概括
-tags: Sort 
+tags: sort 
 categories: DataStructure
 ---
 

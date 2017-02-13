@@ -2,7 +2,7 @@
 layout: post
 title: 接口响应时间长的调优经验
 tags: Architecture
-categories: Technology
+categories: Experience
 ---
 
 随着移动互联网的兴起，海量的终端带来的是数据量的飞速增长，对于存储的需求也随之增长；随之引发的接口响应率等问题也不断暴露.....

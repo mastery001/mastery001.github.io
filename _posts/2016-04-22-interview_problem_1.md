@@ -2,7 +2,7 @@
 layout: post
 title: 记面试题目（1）
 tags: Collections DataStructure Thread
-categories: Record
+categories: Experience
 ---
 
 一个晚上，一个突然的面试电话呼来，让我措手不及，面试的过程中也发挥的不好，犯了很多不应该犯的错误，一些能答出来的题目却没有答出来。其实真正让我意识到了，工作这段时间自己将很多基础知识都荒废了，而且新知识也并没有接触到多少。

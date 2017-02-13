@@ -2,7 +2,7 @@
 layout: post
 title: Redis scan命令的一次坑
 tags: Cache
-categories: Technology
+categories: Experience
 ---
 
 Redis作为当前服务架构不可或缺的Cache，其支持丰富多样的数据结构，Redis在使用中其实也有很多坑，本次博主遇到的坑或许说是Java程序员会遇到的多一点，下面就听博主详细道来。
