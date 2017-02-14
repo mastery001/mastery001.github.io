@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 接口响应时间长的调优经验
-tags: Architecture
+tags: architecture
 categories: Experience
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Git协同开发的那点事
-tags: Git
+tags: git
 categories: Experience
 ---
 

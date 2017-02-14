@@ -2,7 +2,7 @@
 layout: post
 categories: DataStructure
 title: 判断两个单向链表是否相交
-tags: [List]
+tags: [list]
 ---
 
     1.链表定义

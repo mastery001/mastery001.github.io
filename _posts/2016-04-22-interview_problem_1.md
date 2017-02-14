@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 记面试题目（1）
-tags: Collections DataStructure Thread
+tags: collections thread
 categories: Experience
 ---
 

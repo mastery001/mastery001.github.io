@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Codis初体验心得
-tags: Cache
+tags: cache
 categories: Experience
 ---
 

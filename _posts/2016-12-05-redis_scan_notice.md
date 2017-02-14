@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Redis scan命令的一次坑
-tags: Cache
+tags: cache
 categories: Experience
 ---
 

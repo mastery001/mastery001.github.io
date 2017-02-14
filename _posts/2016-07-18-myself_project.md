@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 个人git项目推荐
-tags: Framework
+tags: framework
 categories: Project
 ---
 

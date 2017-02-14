@@ -3,7 +3,7 @@ layout: post
 category: Spring
 title: SpringMVC的Controller的方法约束
 tagline: by Mastery
-tags: [Spring]
+tags: [spring]
 ---
 
 <!--more-->

@@ -3,7 +3,7 @@ layout: post
 category: Spring
 title: Eclipse下构建SpringMVC的Maven项目
 tagline: by Mastery
-tags: [Maven ,Eclipse , Spring]
+tags: [maven ,eclipse , spring]
 ---
 
 最近在学习Spring、SpringMVC、Maven，想在Eclipse下构建maven项目，不过由于是第一次操作且Eclipse默认支持的创建

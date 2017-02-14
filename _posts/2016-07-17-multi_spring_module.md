@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Maven多module下的Spring启动
-tags: Maven Spring
+tags: maven spring
 categories: Spring
 ---
 
