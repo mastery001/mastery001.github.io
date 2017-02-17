@@ -2,7 +2,7 @@
 layout: post
 title: Codis初体验心得
 tags: cache
-categories: Experience
+categories: Knowledge
 ---
 
 Codis是一个分布式的Redis解决方案，对于上层的应用来说，连接Codis Proxy和连接原生的Redis Server没有明显的区别，上层应用可以像使用单机的Redis一样使用，Codis底层会处理请求的转发，不停机的数据迁移等工作，所有后边的一切事情，对于前面客户端来说是透明的，可以简单的认为后边连接是一个内存无限大的Redis服务。

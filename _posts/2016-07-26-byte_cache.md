@@ -2,7 +2,7 @@
 layout: post
 title: 字节数组的妙用
 tags: memory
-categories: Java
+categories: Knowledge
 ---
 
 在计算机高级语言中，字节属于最小单位，例如在Java中，int占用4个字节，long占用8个字节等。基本上所有基本类型(包括String)都可以转换成字节，那么这到底有何作用，本篇博客主要是记录了我使用字节数组的经验，希望可以给大家提供一些思路。
