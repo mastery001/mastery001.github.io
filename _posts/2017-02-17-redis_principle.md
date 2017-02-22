@@ -5,7 +5,7 @@ tags:  redis
 categories: Knowledge
 ---
 
-本篇内容参考了多位前辈对Redis的深入分析的Blog和Redis实现原理等书籍，简单描述了Redis的内存管理和持久化机制，列出了其内存结构和编码类型，以及Redis持久化的RDB和AOF两种方式的基本原理
+本篇博客参考了多位前辈对Redis的深入分析的Blog和Redis实现原理等书籍，简单描述了Redis的内存管理和持久化机制，列出了其内存结构和编码类型，以及Redis持久化的RDB和AOF两种方式的基本原理
 <!--more-->
 
 ## 内存管理
