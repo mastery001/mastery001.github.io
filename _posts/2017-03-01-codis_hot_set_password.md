@@ -5,6 +5,7 @@ tags: cache
 categories: Knowledge
 ---
 
+本篇博客为codis的集群使用者提供线上加密码的方法，并且详解了其每一步操作，绝对干货！
 <!--more-->
 
 # 线上告警
@@ -28,6 +29,7 @@ categories: Knowledge
 
 1. 屏蔽公网ip
 2. 给codis集群设置密码
+3. 重新搭建集群，并将数据重新导入(`适用于集群中未做过migrate操作`)
 
 当然这里博主采用的是第二种方案。
 
