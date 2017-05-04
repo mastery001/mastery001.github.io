@@ -2,7 +2,7 @@
 layout: post
 title: Git协同开发的那点事
 tags: git
-categories: Experience
+categories: git
 ---
 
 随着分布式和开源这些概念的不断普及，现在有大部分的开发者都在用Git管理开源项目、个人项目和公司的项目开发。本篇博客主要是研究实际在使用Git进行多人协作开发过程中的一些场景和解决方案。
