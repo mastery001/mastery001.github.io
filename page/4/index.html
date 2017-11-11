@@ -1788,11 +1788,48 @@ den = \sqrt{\left(sumSq1 - \frac{sum1^2}{n}\right) * \left(sumSq2 - \frac{sum2^2
 <li>取得前n个结果</li>
 </ol>
 <h3 id="推荐物品"><a href="#推荐物品" class="headerlink" title="推荐物品"></a>推荐物品</h3><ol>
-<li><p>构建相似度表</p>
-<p>| 用户         | 相似度    | 物品    | S.x物品                                    |<br>| ————— | ——— | ——- | ———————————————————— |<br>| xxx        | 取值为0~1 | 用户评价值 | 用户评价值 * 相似度                              |<br>| 总计         |        |       | \sum_{i=1}^n s_i |<br>| Sim.Sum    |        |       | 相似度之和(该用户所有评论的物品)                        |<br>| 总计/Sim.Sum |        |       |                                          |</p>
-</li>
-<li><p>将相似度表从大到小排序</p>
-</li>
+<li>构建相似度表</li>
+</ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用户</th>
+<th>相似度</th>
+<th>物品</th>
+<th>S.x物品</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>xxx</td>
+<td>取值为0~1</td>
+<td>用户评价值</td>
+<td>用户评价值 * 相似度</td>
+</tr>
+<tr>
+<td>总计</td>
+<td></td>
+<td></td>
+<td>$\sum_{i=1}^n s_i$</td>
+</tr>
+<tr>
+<td>Sim.Sum</td>
+<td></td>
+<td></td>
+<td>相似度之和(该用户所有评论的物品)</td>
+</tr>
+<tr>
+<td>总计/Sim.Sum</td>
+<td></td>
+<td></td>
+<td>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol>
+<li>将相似度表从大到小排序</li>
 </ol>
 <h1 id="发现群组"><a href="#发现群组" class="headerlink" title="发现群组"></a>发现群组</h1><h2 id="分级聚类"><a href="#分级聚类" class="headerlink" title="分级聚类"></a>分级聚类</h2><p>分级聚类：通过连续不断地将最为相似的群组两两合并，来构造出一个群组的层级结构（每个群组都是由单一元素开始的）</p>
 <p><strong>群组数据结构</strong></p>
@@ -1809,7 +1846,7 @@ den = \sqrt{\left(sumSq1 - \frac{sum1^2}{n}\right) * \left(sumSq2 - \frac{sum2^2
 <p><strong>缺点</strong></p>
 <ol>
 <li>在没有额外投入的情况下，树状图不会真正将数据拆分到不同组</li>
-<li>该算法的计算量很大，时间复杂度为<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMi40NDlleCIgaGVpZ2h0PSIyLjU0M2V4IiB2aWV3Qm94PSIwIC05NzcuOSAxMDU0LjQgMTA5NC43IiByb2xlPSJpbWciIGZvY3VzYWJsZT0iZmFsc2UiIHN0eWxlPSJ2ZXJ0aWNhbC1hbGlnbjogLTAuMjcxZXg7Ij48ZGVmcz48cGF0aCBzdHJva2Utd2lkdGg9IjEiIGlkPSJFNjUtTUpNQVRISS02RSIgZD0iTTIxIDI4N1EyMiAyOTMgMjQgMzAzVDM2IDM0MVQ1NiAzODhUODkgNDI1VDEzNSA0NDJRMTcxIDQ0MiAxOTUgNDI0VDIyNSAzOTBUMjMxIDM2OVEyMzEgMzY3IDIzMiAzNjdMMjQzIDM3OFEzMDQgNDQyIDM4MiA0NDJRNDM2IDQ0MiA0NjkgNDE1VDUwMyAzMzZUNDY1IDE3OVQ0MjcgNTJRNDI3IDI2IDQ0NCAyNlE0NTAgMjYgNDUzIDI3UTQ4MiAzMiA1MDUgNjVUNTQwIDE0NVE1NDIgMTUzIDU2MCAxNTNRNTgwIDE1MyA1ODAgMTQ1UTU4MCAxNDQgNTc2IDEzMFE1NjggMTAxIDU1NCA3M1Q1MDggMTdUNDM5IC0xMFEzOTIgLTEwIDM3MSAxN1QzNTAgNzNRMzUwIDkyIDM4NiAxOTNUNDIzIDM0NVE0MjMgNDA0IDM3OSA0MDRIMzc0UTI4OCA0MDQgMjI5IDMwM0wyMjIgMjkxTDE4OSAxNTdRMTU2IDI2IDE1MSAxNlExMzggLTExIDEwOCAtMTFROTUgLTExIDg3IC01VDc2IDdUNzQgMTdRNzQgMzAgMTEyIDE4MFQxNTIgMzQzUTE1MyAzNDggMTUzIDM2NlExNTMgNDA1IDEyOSA0MDVROTEgNDA1IDY2IDMwNVE2MCAyODUgNjAgMjg0UTU4IDI3OCA0MSAyNzhIMjdRMjEgMjg0IDIxIDI4N1oiLz48cGF0aCBzdHJva2Utd2lkdGg9IjEiIGlkPSJFNjUtTUpNQUlOLTMzIiBkPSJNMTI3IDQ2M1ExMDAgNDYzIDg1IDQ4MFQ2OSA1MjRRNjkgNTc5IDExNyA2MjJUMjMzIDY2NVEyNjggNjY1IDI3NyA2NjRRMzUxIDY1MiAzOTAgNjExVDQzMCA1MjJRNDMwIDQ3MCAzOTYgNDIxVDMwMiAzNTBMMjk5IDM0OFEyOTkgMzQ3IDMwOCAzNDVUMzM3IDMzNlQzNzUgMzE1UTQ1NyAyNjIgNDU3IDE3NVE0NTcgOTYgMzk1IDM3VDIzOCAtMjJRMTU4IC0yMiAxMDAgMjFUNDIgMTMwUTQyIDE1OCA2MCAxNzVUMTA1IDE5M1ExMzMgMTkzIDE1MSAxNzVUMTY5IDEzMFExNjkgMTE5IDE2NiAxMTBUMTU5IDk0VDE0OCA4MlQxMzYgNzRUMTI2IDcwVDExOCA2N0wxMTQgNjZRMTY1IDIxIDIzOCAyMVEyOTMgMjEgMzIxIDc0UTMzOCAxMDcgMzM4IDE3NVYxOTVRMzM4IDI5MCAyNzQgMzIyUTI1OSAzMjggMjEzIDMyOUwxNzEgMzMwTDE2OCAzMzJRMTY2IDMzNSAxNjYgMzQ4UTE2NiAzNjYgMTc0IDM2NlEyMDIgMzY2IDIzMiAzNzFRMjY2IDM3NiAyOTQgNDEzVDMyMiA1MjVWNTMzUTMyMiA1OTAgMjg3IDYxMlEyNjUgNjI2IDI0MCA2MjZRMjA4IDYyNiAxODEgNjE1VDE0MyA1OTJUMTMyIDU4MEgxMzVRMTM4IDU3OSAxNDMgNTc4VDE1MyA1NzNUMTY1IDU2NlQxNzUgNTU1VDE4MyA1NDBUMTg2IDUyMFExODYgNDk4IDE3MiA0ODFUMTI3IDQ2M1oiLz48L2RlZnM+PGcgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIGZpbGw9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIwIiB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDApIj48dXNlIE5TMTpocmVmPSIjRTY1LU1KTUFUSEktNkUiIHhtbG5zOk5TMT0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMCIgeT0iMCIvPjx1c2UgdHJhbnNmb3JtPSJzY2FsZSgwLjcwNykiIE5TMjpocmVmPSIjRTY1LU1KTUFJTi0zMyIgeG1sbnM6TlMyPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSI4NDkiIHk9IjU4MyIvPjwvZz48L3N2Zz4=" alt="img"></li>
+<li>该算法的计算量很大，时间复杂度为$n^3$</li>
 </ol>
 <h2 id="K-均值聚类"><a href="#K-均值聚类" class="headerlink" title="K-均值聚类"></a>K-均值聚类</h2><p>K-均值聚类：在分级聚类的基础上添加k个中心点的概念，即最终确定的聚类是k个，而非1个</p>
 <p><strong>步骤</strong></p>
