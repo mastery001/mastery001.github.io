@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="jvm," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="JVM的一些基本知识">
+<meta name="keywords" content="jvm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM启动工作原理">
+<meta property="og:url" content="http://blog.ziwenzou.com/2015/07/22/2015-07-22-JVM_start_principle/index.html">
+<meta property="og:site_name" content="locoder&#39;s blog">
+<meta property="og:description" content="JVM的一些基本知识">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2017-11-11T15:01:32.576Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM启动工作原理">
+<meta name="twitter:description" content="JVM的一些基本知识">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.ziwenzou.com/2015/07/22/2015-07-22-JVM_start_principle/"/>
+
+
+
+
+
+  <title>JVM启动工作原理 | locoder's blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">locoder's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archie"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.ziwenzou.com/2015/07/22/2015-07-22-JVM_start_principle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="locoder">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="locoder's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JVM启动工作原理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-07-22T00:00:00+08:00">
+                2015-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>JVM的一些基本知识</p>
+<a id="more"></a>
+<h1 id="1-JVM体系结构"><a href="#1-JVM体系结构" class="headerlink" title="1. JVM体系结构"></a>1. JVM体系结构</h1><pre><code>(1)类加载器（`ClassLoader`）（用来装载`.class`文件）
+
+(2)执行引擎（执行字节码，或者执行本地方法）
+
+(3)运行时数据区（方法区、堆、java栈、本地方法栈、PC寄存器）
+</code></pre><h1 id="2-JVM的生命周期"><a href="#2-JVM的生命周期" class="headerlink" title="2. JVM的生命周期"></a>2. JVM的生命周期</h1><p>1.JVM实例对应了一个独立运行的java程序，它是进程级别;</p>
+<pre><code>a）启动。启动一个java程序时，一个JVM实例就产生了，任何一个拥有`public static void main(String
+[] args)`方法的class都可以作为JVM实例运行的起点
+
+b）运行。`main()`作为该程序的初始线程的起点，任何其他线程均由该线程启动。JVM内部有两种线程：守护线
+程和非守护线程，`main()`属于非守护线程守护线程通常由JVM自己使用，java程序也可以标明自己创建的线程
+是守护线程
+
+c）消亡。当程序中的所有非守护线程都终止时，JVM才退出；若安全管理器允许，程序也可以使用`Runtime`类
+或者`System.exit()`来退出
+</code></pre><p>2.JVM执行引擎实例则对应了属于用户运行程序的线程，它是线程级别的;</p>
+<h1 id="3-JVM启动"><a href="#3-JVM启动" class="headerlink" title="3. JVM启动"></a>3. JVM启动</h1><p>JVM工作原理和特点主要是指操作系统装入JVM，是通过JDK中<code>java.exe</code>来完成，通过下面4步来完成JVM环境.</p>
+<pre><code>1.创建`JVM`装载环境和配置
+
+2.装载`JVM.dll`
+
+3.初始化`JVM.dll`并挂界到`JNIENV`(`JNI`调用接口)实例
+
+4.调用`JNIENV`实例装载并处理`class`类
+</code></pre><h2 id="3-1-启动代码分析"><a href="#3-1-启动代码分析" class="headerlink" title="3.1 启动代码分析"></a>3.1 启动代码分析</h2><p><code>main</code>函数在<code>openjdk\jdk\src\share\bin\main.c</code>文件中。简单流程分析如下：</p>
+<pre><code>1.SelectVersion-&gt;LocateJRE,定位jre的位置。因为在不同的操作系统上定位jre的方式不同，相关代码就
+和平台相关了，windows相关的一些代码在`openjdk\jdk\src\windows`下，而`linux`和`solaris`相关
+代码在`openjdk\jdk\src\solaris`下。这部分调用到的代码都在`{os}\bin\java_md.c`中。简单的说，
+windows中，LocateJRE要通过查找注册表来定位jre的位置，而Linux下可能需要读取环境变量等。
+
+2.CreateExecutionEnvironment-&gt;GetJVMPath得到jvm的路径，其实就是找到相应的动态链接
+库，具体到linux上，就是`libjvm.so`。
+
+3.LoadJavaVM，linux上是加载&#39;libjvm.so&#39;,windows上是加载`jvm.dll`，导
+出`JNI_CreateJavaVM`、`JNI_GetDefaultJavaVMInitArgs`等函数。
+
+4.获取classpath。
+
+5.ContinueInNewThread(&amp;ifn,argc,argv,jarfile,classname,ret);在一个新线程中启动jvm。
+ContinueInNewThread的功能是：调用`GetDefaultJavaJVMInitArgs`(其实就
+调用`JNI_GetDefaultJavaVMInitArgs`)获取虚拟机初始化参数，设定线程栈的大小，
+创建java程序需要的各项参数。然后调用下面函数 `ContinueInNewThread0(JavaMain, 
+threadStackSize, (void*)&amp;args);` ;因为不同操作系统创建线程的方式不同，所以又进
+入os相关的代码，`{os}\bin\java_md.c`中的`int ContinueInNewThread0(JNICALL 
+*continuation)(void *), jlong stack_size,void *args)`函数。
+
+    阅读其源码，可知linux上是通过`pthread_create`创建线程，Solaris通过`thr_create`创建线程，
+    而`windows`则通过`_beginthreadex`创建线程。
+
+    在新线程中调用JavaMain函数，即openjdk\jdk\src\share\bin\main.c中的 `int JNICALL 
+    JavaMain(void *_args)`,它负责加载要运行的的java class，并调用class的main方法。
+
+    处理步骤是：
+
+    1).InitalizeJVM-&gt;CreateJavaVM(即通过JNI调用JNI_CreateJavaVM),创建jvm。
+    2).LoadMainClass加载main class，并确保main方法的签名是正确的。 
+    3).mainID = (*env)-&gt;GetStaticMethodID(env, mainClass, &quot;main&quot;,&quot;([Ljava/lang/String;)V&quot;);通过JNI得到main方法的method信息。 
+    4).mainArgs = NewPlatformStringArray(env, argv, argc);为main方法准备参数数组。 
+    5).(*env)-&gt;CallStaticVoidMethod(env, mainClass, mainID, mainArgs);通过JNI调用main方法。 
+    6).ret = (*env)-&gt;ExceptionOccurred(env) == NULL ? 0 : 1;处理异常 
+    7).DetachCurrentThread 
+    8).DestroyJavaVM 销毁JVM
+</code></pre><blockquote>
+<p>下面以windows的实现进行分析：</p>
+<p>首先查找jre路径，Java通过<code>GetApplicationHome api</code>来获得当前的<code>java.exe</code>绝对路径（例如我电脑上的<code>e:\program
+\java\jdk\bin\java.exe</code>），那么它会截取到绝对路径<code>e:\program\java\jdk</code>，判断<code>e:\program\java\jdk\jvm.dll</code><br>文件是否存在，如果存在就把<code>e:\program\java\jdk</code>，作为jre路径；如果不存在则判断<code>e:\program\java\jdk\jre\jvm.dll</code><br>是否存在，如果存在则将<code>e:\program\java\jdk\jre</code>作为jre路径。如果不存在调用<code>GetPublicJREHome</code>查<code>HKEY_LOCAL
+_MACHINE\Software\JavaSoft\Java Runtime Environment\&quot;当前JRE版本号&quot;\JavaHome</code>的路径作为jre路径。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jvm/" rel="tag"># jvm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/21/2015-07-21-Java_class_structs/" rel="next" title="JavaClass文件结构">
+                <i class="fa fa-chevron-left"></i> JavaClass文件结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/27/2015-07-27-Java_collection_List/" rel="prev" title="Java集合类--List篇">
+                Java集合类--List篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">locoder</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/mastery001" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:basic54zb@outlook.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.jianshu.com/u/01dfdaa43ca2" target="_blank" title="简书">
+                    
+                      <i class="fa fa-fw fa-globe"></i>简书</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-JVM体系结构"><span class="nav-number">1.</span> <span class="nav-text">1. JVM体系结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-JVM的生命周期"><span class="nav-number">2.</span> <span class="nav-text">2. JVM的生命周期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-JVM启动"><span class="nav-number">3.</span> <span class="nav-text">3. JVM启动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-启动代码分析"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 启动代码分析</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">locoder</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
