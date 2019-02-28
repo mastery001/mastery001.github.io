@@ -18,8 +18,8 @@
   
   <entry>
     <title>深入理解NIO系列 - Selector详解</title>
-    <link href="http://blog.ziwenzou.com/2019/02/28/2019-02-28-nio_selector/"/>
-    <id>http://blog.ziwenzou.com/2019/02/28/2019-02-28-nio_selector/</id>
+    <link href="http://blog.ziwenzou.com/2019/02/28/nio_selector/"/>
+    <id>http://blog.ziwenzou.com/2019/02/28/nio_selector/</id>
     <published>2019-02-27T16:00:00.000Z</published>
     <updated>2019-02-28T08:42:31.922Z</updated>
     
@@ -40,8 +40,8 @@
   
   <entry>
     <title>特征选择</title>
-    <link href="http://blog.ziwenzou.com/2017/12/03/2017-12-03-feature_selection/"/>
-    <id>http://blog.ziwenzou.com/2017/12/03/2017-12-03-feature_selection/</id>
+    <link href="http://blog.ziwenzou.com/2017/12/03/feature_selection/"/>
+    <id>http://blog.ziwenzou.com/2017/12/03/feature_selection/</id>
     <published>2017-12-02T16:00:00.000Z</published>
     <updated>2017-12-05T11:20:47.109Z</updated>
     
@@ -62,8 +62,8 @@
   
   <entry>
     <title>决策树</title>
-    <link href="http://blog.ziwenzou.com/2017/11/13/2017-11-13-decision_tree/"/>
-    <id>http://blog.ziwenzou.com/2017/11/13/2017-11-13-decision_tree/</id>
+    <link href="http://blog.ziwenzou.com/2017/11/13/decision_tree/"/>
+    <id>http://blog.ziwenzou.com/2017/11/13/decision_tree/</id>
     <published>2017-11-12T16:00:00.000Z</published>
     <updated>2017-11-18T14:59:46.308Z</updated>
     
@@ -84,8 +84,8 @@
   
   <entry>
     <title>正态分布</title>
-    <link href="http://blog.ziwenzou.com/2017/11/04/2017-11-04-normal_distribution/"/>
-    <id>http://blog.ziwenzou.com/2017/11/04/2017-11-04-normal_distribution/</id>
+    <link href="http://blog.ziwenzou.com/2017/11/04/normal_distribution/"/>
+    <id>http://blog.ziwenzou.com/2017/11/04/normal_distribution/</id>
     <published>2017-11-03T16:00:00.000Z</published>
     <updated>2017-11-18T15:20:49.912Z</updated>
     
@@ -106,8 +106,8 @@
   
   <entry>
     <title>机器学习算法汇总</title>
-    <link href="http://blog.ziwenzou.com/2017/11/04/2017-11-04-machine_learning_algorithm/"/>
-    <id>http://blog.ziwenzou.com/2017/11/04/2017-11-04-machine_learning_algorithm/</id>
+    <link href="http://blog.ziwenzou.com/2017/11/04/machine_learning_algorithm/"/>
+    <id>http://blog.ziwenzou.com/2017/11/04/machine_learning_algorithm/</id>
     <published>2017-11-03T16:00:00.000Z</published>
     <updated>2017-11-11T14:56:50.457Z</updated>
     
@@ -127,9 +127,31 @@
   </entry>
   
   <entry>
+    <title>推荐</title>
+    <link href="http://blog.ziwenzou.com/2017/10/29/recommendation/"/>
+    <id>http://blog.ziwenzou.com/2017/10/29/recommendation/</id>
+    <published>2017-10-28T16:00:00.000Z</published>
+    <updated>2019-02-28T09:01:40.180Z</updated>
+    
+    <content type="html"><![CDATA[<p>推荐的一些基本介绍</p><a id="more"></a><h1 id="什么是推荐"><a href="#什么是推荐" class="headerlink" title="什么是推荐"></a>什么是推荐</h1><p><strong>定义</strong>：根据群体偏好来向用户推荐相关的物品</p><p>例子：</p><ol><li>Amazon、淘宝通过对用户浏览、购买等行为记录后，并推荐可能喜欢的商品</li><li>网易云音乐的私人FM</li><li>美团APP上的猜你喜欢</li></ol><p>一般步骤：</p><ol><li>搜集用户行为数据</li><li>建立用户-物品评价值表</li><li>计算用户-用户之间或物品-物品之间的相似度值</li><li>提供相似度最高的推荐</li></ol><h2 id="协作型过滤"><a href="#协作型过滤" class="headerlink" title="协作型过滤"></a>协作型过滤</h2><p><strong><em>Collaborative filtering</em></strong>：对一大群人进行搜索，并从中找出品味相近的一小群人。算法会对这些人所偏爱的其他内容进行考察，并将它们组合起来构造出一个经过排名的推荐列表</p><h1 id="基于用户推荐"><a href="#基于用户推荐" class="headerlink" title="基于用户推荐"></a>基于用户推荐</h1><p>用户-物品评价值表：</p><div class="table-container"><table><thead><tr><th></th><th>物品1</th><th>物品2</th><th>物品n</th></tr></thead><tbody><tr><td>用户1</td><td>3.5</td><td>4.5</td><td>4</td></tr><tr><td>用户2</td><td>4</td><td>3</td><td></td></tr><tr><td>用户3</td><td>3</td><td></td><td>4.5</td></tr><tr><td>用户4</td><td></td><td>4</td><td></td></tr><tr><td>用户5</td><td>3.5</td><td>4</td><td>4.5</td></tr></tbody></table></div><h2 id="相似度计算"><a href="#相似度计算" class="headerlink" title="相似度计算"></a>相似度计算</h2><p>基于用户-物品评价值表，我们可以计算出用户-用户之间的相似度评价值，有若干种方法可以计算。</p><ol><li>欧几里得距离：当距离越大，则偏好越近；当=1时则代表偏好相同</li><li>皮尔逊相关度：判断两组数据与某一直线<strong>拟合程度</strong>的一种度量。</li><li>曼哈顿距离算法</li><li>Jaccard/Tanimoto系数(Tanimoto coefficient)</li><li>互信息系数：度量非线性相关性</li><li><a href="https://en.wikipedia.org/wiki/Metric_%28mathematics%29#Examples" target="_blank" rel="external">更多相似度计算函数</a></li></ol><h3 id="欧几里得距离"><a href="#欧几里得距离" class="headerlink" title="欧几里得距离"></a>欧几里得距离</h3><p>在数学中，<a href="https://zh.wikipedia.org/wiki/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E8%B7%9D%E7%A6%BB" target="_blank" rel="external">欧几里得距离</a>是欧几里得空间中两点间’’普通“(即直线)距离。</p><script type="math/tex; mode=display">d = \sqrt{(x_2 - x_1)^2}</script><p>通过欧几里得公式我们可以计算基于用户-物品评价值表的<code>偏好空间</code>中用户与用户的距离，距离越近，则越相似</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sum = <span class="number">0</span></span><br><span class="line"><span class="comment"># useritems为用户-物品评价值表</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> useritems[u1] :</span><br><span class="line"><span class="keyword">if</span> item <span class="keyword">in</span> useritems[u2] :</span><br><span class="line">      sum += pow(useritems[u1][item] - useritems[u2][item] , <span class="number">2</span>)</span><br><span class="line">      </span><br><span class="line">similarity = sqrt(sum)</span><br></pre></td></tr></table></figure><h3 id="皮尔逊相关度评价"><a href="#皮尔逊相关度评价" class="headerlink" title="皮尔逊相关度评价"></a>皮尔逊相关度评价</h3><p>皮尔逊相关系数是判断两组数据与某一直线拟合程度的一种度量（即尽可能使图中红线靠近所有坐标点）</p><p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fkzh47nzf3j309n08e3yh.jpg" alt=""></p><p>皮尔逊相关度计算函数会返回介于-1与1之间的数据。当值为1时表明两个人对每一个物品是完全一致的评价，值为-1时则表明两者完全不相关</p><h2 id="推荐物品"><a href="#推荐物品" class="headerlink" title="推荐物品"></a>推荐物品</h2><p>为所有用户和待推荐用户计算相似度，根据相似度进行排名；这里我们得到了品味相近的人，现在想获得物品的推荐，当然我们可以从品味相近的用户中挑选尚未评价过的物品，但这样太随意了，可能存在的问题：</p><ol><li>品味相近的用户尚未对某个物品进行评价，可能这个物品是想要的</li><li>品味相近的用户不看好某个物品，但可能这个物品是想要的</li></ol><p>为了解决上述问题，我们需要通过一个加权的用户评价值表来进行打分</p><p>用户1的加权用户评价值表：</p><div class="table-container"><table><thead><tr><th></th><th>相似度</th><th>物品1</th><th>S(物品1)</th><th>物品2</th><th>S(物品2)</th><th>物品n</th><th>S(物品n )</th></tr></thead><tbody><tr><td>用户2</td><td>0.38</td><td>3</td><td>物品1 * 相似度</td><td>3</td><td></td><td></td><td></td></tr><tr><td>用户3</td><td>0.89</td><td></td><td></td><td>4</td><td></td><td>4.5</td><td></td></tr><tr><td>用户4</td><td>0.92</td><td>4</td><td></td><td>4</td><td></td><td></td><td></td></tr><tr><td>用户5</td><td>0.66</td><td>4</td><td></td><td>4</td><td></td><td>4.5</td><td></td></tr><tr><td>总计</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Sim.Sum</td><td></td><td></td><td>相似度之和(该用户所有评论的物品)</td><td></td><td></td><td></td><td></td></tr><tr><td>总计/Sim.Sum</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div><p>总计：得到用户对物品的评价，品味相近的人，为评价值提供更多的贡献</p><p>总计/Sim.Sum：为了防止受更多人评论的物品影响最终评价结果，需要用总计值/相似度之和进行标准化</p><p>最终我们会得到用户对所有物品的评价值列表，经过按评价值排序后，最后输出推荐列表</p><h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><p>对于用户和物品数量级很大的情况，将一个用户和所有其他用户进行比较，然后再对每位用户评过分的商品进行比较，其速度是难以忍受的</p><p>并且也许用户在偏好方面在彼此间很少会有重叠，这可能会令计算用户的相似度判断变得十分困难</p><h1 id="基于物品推荐"><a href="#基于物品推荐" class="headerlink" title="基于物品推荐"></a>基于物品推荐</h1><p>基于物品的协作型过滤允许我们将大量的计算任务预先执行，从而使需要给予推荐的用户能够更快地得到他们想要的结果</p><p>总体思路：</p><ol><li>为每件物品预先计算好最为相近的物品</li><li>推荐时，取到该用户评价过的所有物品，找到与这些物品相似的物品</li><li>根据计算相似度加权后输出评价值</li></ol><p>与基于用户推荐的区别是：物品间的比较不会像用户间比较的那么频繁变化，这就意味着这个计算过程可以离线进行</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;推荐的一些基本介绍&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="machine-learning" scheme="http://blog.ziwenzou.com/categories/machine-learning/"/>
+    
+    
+      <category term="recommendation" scheme="http://blog.ziwenzou.com/tags/recommendation/"/>
+    
+  </entry>
+  
+  <entry>
     <title>集体智慧编程笔记</title>
-    <link href="http://blog.ziwenzou.com/2017/10/29/2017-10-29-collective_intelligence_notes/"/>
-    <id>http://blog.ziwenzou.com/2017/10/29/2017-10-29-collective_intelligence_notes/</id>
+    <link href="http://blog.ziwenzou.com/2017/10/29/collective_intelligence_notes/"/>
+    <id>http://blog.ziwenzou.com/2017/10/29/collective_intelligence_notes/</id>
     <published>2017-10-28T16:00:00.000Z</published>
     <updated>2017-11-11T14:56:00.495Z</updated>
     
@@ -149,31 +171,9 @@
   </entry>
   
   <entry>
-    <title>推荐</title>
-    <link href="http://blog.ziwenzou.com/2017/10/29/2017-10-29-recommendation/"/>
-    <id>http://blog.ziwenzou.com/2017/10/29/2017-10-29-recommendation/</id>
-    <published>2017-10-28T16:00:00.000Z</published>
-    <updated>2017-11-11T14:56:56.896Z</updated>
-    
-    <content type="html"><![CDATA[<p>推荐的一些基本介绍</p><a id="more"></a><h1 id="什么是推荐"><a href="#什么是推荐" class="headerlink" title="什么是推荐"></a>什么是推荐</h1><p><strong>定义</strong>：根据群体偏好来向用户推荐相关的物品</p><p>例子：</p><ol><li>Amazon、淘宝通过对用户浏览、购买等行为记录后，并推荐可能喜欢的商品</li><li>网易云音乐的私人FM</li><li>美团APP上的猜你喜欢</li></ol><p>一般步骤：</p><ol><li>搜集用户行为数据</li><li>建立用户-物品评价值表</li><li>计算用户-用户之间或物品-物品之间的相似度值</li><li>提供相似度最高的推荐</li></ol><h2 id="协作型过滤"><a href="#协作型过滤" class="headerlink" title="协作型过滤"></a>协作型过滤</h2><p><strong><em>Collaborative filtering</em></strong>：对一大群人进行搜索，并从中找出品味相近的一小群人。算法会对这些人所偏爱的其他内容进行考察，并将它们组合起来构造出一个经过排名的推荐列表</p><h1 id="基于用户推荐"><a href="#基于用户推荐" class="headerlink" title="基于用户推荐"></a>基于用户推荐</h1><p>用户-物品评价值表：</p><div class="table-container"><table><thead><tr><th></th><th>物品1</th><th>物品2</th><th>物品n</th></tr></thead><tbody><tr><td>用户1</td><td>3.5</td><td>4.5</td><td>4</td></tr><tr><td>用户2</td><td>4</td><td>3</td><td></td></tr><tr><td>用户3</td><td>3</td><td></td><td>4.5</td></tr><tr><td>用户4</td><td></td><td>4</td><td></td></tr><tr><td>用户5</td><td>3.5</td><td>4</td><td>4.5</td></tr></tbody></table></div><h2 id="相似度计算"><a href="#相似度计算" class="headerlink" title="相似度计算"></a>相似度计算</h2><p>基于用户-物品评价值表，我们可以计算出用户-用户之间的相似度评价值，有若干种方法可以计算。</p><ol><li>欧几里得距离：当距离越大，则偏好越近；当=1时则代表偏好相同</li><li>皮尔逊相关度：判断两组数据与某一直线<strong>拟合程度</strong>的一种度量。</li><li>曼哈顿距离算法</li><li>Jaccard/Tanimoto系数(Tanimoto coefficient)</li><li>互信息系数：度量非线性相关性</li><li><a href="https://en.wikipedia.org/wiki/Metric_%28mathematics%29#Examples" target="_blank" rel="external">更多相似度计算函数</a></li></ol><h3 id="欧几里得距离"><a href="#欧几里得距离" class="headerlink" title="欧几里得距离"></a>欧几里得距离</h3><p>在数学中，<a href="https://zh.wikipedia.org/wiki/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E8%B7%9D%E7%A6%BB" target="_blank" rel="external">欧几里得距离</a>是欧几里得空间中两点间’’普通“(即直线)距离。</p><script type="math/tex; mode=display">d = \sqrt{(x_2 - x_1)^2}</script><p>通过欧几里得公式我们可以计算基于用户-物品评价值表的<code>偏好空间</code>中用户与用户的距离，距离越近，则越相似</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sum = <span class="number">0</span></span><br><span class="line"><span class="comment"># useritems为用户-物品评价值表</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> useritems[u1] :</span><br><span class="line"><span class="keyword">if</span> item <span class="keyword">in</span> useritems[u2] :</span><br><span class="line">      sum += pow(useritems[u1][item] - useritems[u2][item] , <span class="number">2</span>)</span><br><span class="line">      </span><br><span class="line">similarity = sqrt(sum)</span><br></pre></td></tr></table></figure><h3 id="皮尔逊相关度评价"><a href="#皮尔逊相关度评价" class="headerlink" title="皮尔逊相关度评价"></a>皮尔逊相关度评价</h3><p>皮尔逊相关系数是判断两组数据与某一直线拟合程度的一种度量（即尽可能使图中红线靠近所有坐标点）</p><p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fkzh47nzf3j309n08e3yh.jpg" alt=""></p><p>皮尔逊相关度计算函数会返回介于-1与1之间的数据。当值为1时表明两个人对每一个物品是完全一致的评价，值为-1时则表明两者完全不相关</p><h2 id="推荐物品"><a href="#推荐物品" class="headerlink" title="推荐物品"></a>推荐物品</h2><p>为所有用户和待推荐用户计算相似度，根据相似度进行排名；这里我们得到了品味相近的人，现在想获得物品的推荐，当然我们可以从品味相近的用户中挑选尚未评价过的物品，但这样太随意了，可能存在的问题：</p><ol><li>品味相近的用户尚未对某个物品进行评价，可能这个物品是想要的</li><li>品味相近的用户不看好某个物品，但可能这个物品是想要的</li></ol><p>为了解决上述问题，我们需要通过一个加权的用户评价值表来进行打分</p><p>用户1的加权用户评价值表：</p><div class="table-container"><table><thead><tr><th></th><th>相似度</th><th>物品1</th><th>S(物品1)</th><th>物品2</th><th>S(物品2)</th><th>物品n</th><th>S(物品n )</th></tr></thead><tbody><tr><td>用户2</td><td>0.38</td><td>3</td><td>物品1 * 相似度</td><td>3</td><td></td><td></td><td></td></tr><tr><td>用户3</td><td>0.89</td><td></td><td></td><td>4</td><td></td><td>4.5</td><td></td></tr><tr><td>用户4</td><td>0.92</td><td>4</td><td></td><td>4</td><td></td><td></td><td></td></tr><tr><td>用户5</td><td>0.66</td><td>4</td><td></td><td>4</td><td></td><td>4.5</td><td></td></tr><tr><td>总计</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Sim.Sum</td><td></td><td></td><td>相似度之和(该用户所有评论的物品)</td><td></td><td></td><td></td><td></td></tr><tr><td>总计/Sim.Sum</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div><p>总计：得到用户对物品的评价，品味相近的人，为评价值提供更多的贡献</p><p>总计/Sim.Sum：为了防止受更多人评论的物品影响最终评价结果，需要用总计值/相似度之和进行标准化</p><p>最终我们会得到用户对所有物品的评价值列表，经过按评价值排序后，最后输出推荐列表</p><h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><p>对于用户和物品数量级很大的情况，将一个用户和所有其他用户进行比较，然后再对每位用户评过分的商品进行比较，其速度是难以忍受的</p><p>并且也许用户在偏好方面在彼此间很少会有重叠，这可能会令计算用户的相似度判断变得十分困难</p><h1 id="基于物品推荐"><a href="#基于物品推荐" class="headerlink" title="基于物品推荐"></a>基于物品推荐</h1><p>基于物品的协作型过滤允许我们将大量的计算任务预先执行，从而使需要给予推荐的用户能够更快地得到他们想要的结果</p><p>总体思路：</p><ol><li>为每件物品预先计算好最为相近的物品</li><li>推荐时，取到该用户评价过的所有物品，找到与这些物品相似的物品</li><li>根据计算相似度加权后输出评价值</li></ol><p>与基于用户推荐的区别是：物品间的比较不会像用户间比较的那么频繁变化，这就意味着这个计算过程可以离线进行</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;推荐的一些基本介绍&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="machine-learning" scheme="http://blog.ziwenzou.com/categories/machine-learning/"/>
-    
-    
-      <category term="recommendation" scheme="http://blog.ziwenzou.com/tags/recommendation/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Git系列之基础篇--push、pull、fetch</title>
-    <link href="http://blog.ziwenzou.com/2017/05/09/2017-05-09-git_05/"/>
-    <id>http://blog.ziwenzou.com/2017/05/09/2017-05-09-git_05/</id>
+    <link href="http://blog.ziwenzou.com/2017/05/09/git_05/"/>
+    <id>http://blog.ziwenzou.com/2017/05/09/git_05/</id>
     <published>2017-05-08T16:00:00.000Z</published>
     <updated>2017-11-11T14:57:26.673Z</updated>
     
@@ -194,8 +194,8 @@
   
   <entry>
     <title>Git系列之基础篇--commit</title>
-    <link href="http://blog.ziwenzou.com/2017/05/08/2017-05-08-git_04/"/>
-    <id>http://blog.ziwenzou.com/2017/05/08/2017-05-08-git_04/</id>
+    <link href="http://blog.ziwenzou.com/2017/05/08/git_04/"/>
+    <id>http://blog.ziwenzou.com/2017/05/08/git_04/</id>
     <published>2017-05-07T16:00:00.000Z</published>
     <updated>2017-11-11T14:57:32.434Z</updated>
     
@@ -216,8 +216,8 @@
   
   <entry>
     <title>Git系列之基础篇--add</title>
-    <link href="http://blog.ziwenzou.com/2017/05/06/2017-05-06-git_03/"/>
-    <id>http://blog.ziwenzou.com/2017/05/06/2017-05-06-git_03/</id>
+    <link href="http://blog.ziwenzou.com/2017/05/06/git_03/"/>
+    <id>http://blog.ziwenzou.com/2017/05/06/git_03/</id>
     <published>2017-05-05T16:00:00.000Z</published>
     <updated>2017-11-11T14:57:56.505Z</updated>
     
@@ -238,8 +238,8 @@
   
   <entry>
     <title>Git系列--Git仓库</title>
-    <link href="http://blog.ziwenzou.com/2017/05/05/2017-05-05-git_02/"/>
-    <id>http://blog.ziwenzou.com/2017/05/05/2017-05-05-git_02/</id>
+    <link href="http://blog.ziwenzou.com/2017/05/05/git_02/"/>
+    <id>http://blog.ziwenzou.com/2017/05/05/git_02/</id>
     <published>2017-05-04T16:00:00.000Z</published>
     <updated>2017-11-11T14:58:00.442Z</updated>
     
@@ -260,8 +260,8 @@
   
   <entry>
     <title>Git系列--初识</title>
-    <link href="http://blog.ziwenzou.com/2017/05/04/2017-05-04-git_01/"/>
-    <id>http://blog.ziwenzou.com/2017/05/04/2017-05-04-git_01/</id>
+    <link href="http://blog.ziwenzou.com/2017/05/04/git_01/"/>
+    <id>http://blog.ziwenzou.com/2017/05/04/git_01/</id>
     <published>2017-05-03T16:00:00.000Z</published>
     <updated>2017-11-11T14:58:03.974Z</updated>
     
@@ -282,8 +282,8 @@
   
   <entry>
     <title>Codis线上加密码</title>
-    <link href="http://blog.ziwenzou.com/2017/03/01/2017-03-01-codis_hot_set_password/"/>
-    <id>http://blog.ziwenzou.com/2017/03/01/2017-03-01-codis_hot_set_password/</id>
+    <link href="http://blog.ziwenzou.com/2017/03/01/codis_hot_set_password/"/>
+    <id>http://blog.ziwenzou.com/2017/03/01/codis_hot_set_password/</id>
     <published>2017-02-28T16:00:00.000Z</published>
     <updated>2017-11-11T14:58:10.424Z</updated>
     
@@ -304,8 +304,8 @@
   
   <entry>
     <title>Java NIO类概述</title>
-    <link href="http://blog.ziwenzou.com/2017/02/22/2017-02-22-java_nio/"/>
-    <id>http://blog.ziwenzou.com/2017/02/22/2017-02-22-java_nio/</id>
+    <link href="http://blog.ziwenzou.com/2017/02/22/java_nio/"/>
+    <id>http://blog.ziwenzou.com/2017/02/22/java_nio/</id>
     <published>2017-02-21T16:00:00.000Z</published>
     <updated>2017-11-11T14:58:18.942Z</updated>
     
@@ -326,8 +326,8 @@
   
   <entry>
     <title>Redis内存管理和持久化机制</title>
-    <link href="http://blog.ziwenzou.com/2017/02/17/2017-02-17-redis_principle/"/>
-    <id>http://blog.ziwenzou.com/2017/02/17/2017-02-17-redis_principle/</id>
+    <link href="http://blog.ziwenzou.com/2017/02/17/redis_principle/"/>
+    <id>http://blog.ziwenzou.com/2017/02/17/redis_principle/</id>
     <published>2017-02-16T16:00:00.000Z</published>
     <updated>2017-11-11T14:58:24.364Z</updated>
     
@@ -348,8 +348,8 @@
   
   <entry>
     <title>JMM概述</title>
-    <link href="http://blog.ziwenzou.com/2017/02/13/2017-02-13-jmm/"/>
-    <id>http://blog.ziwenzou.com/2017/02/13/2017-02-13-jmm/</id>
+    <link href="http://blog.ziwenzou.com/2017/02/13/jmm/"/>
+    <id>http://blog.ziwenzou.com/2017/02/13/jmm/</id>
     <published>2017-02-12T16:00:00.000Z</published>
     <updated>2017-11-11T14:58:29.166Z</updated>
     
@@ -370,8 +370,8 @@
   
   <entry>
     <title>Pushy初识</title>
-    <link href="http://blog.ziwenzou.com/2017/01/17/2017-01-17-pushy/"/>
-    <id>http://blog.ziwenzou.com/2017/01/17/2017-01-17-pushy/</id>
+    <link href="http://blog.ziwenzou.com/2017/01/17/pushy/"/>
+    <id>http://blog.ziwenzou.com/2017/01/17/pushy/</id>
     <published>2017-01-16T16:00:00.000Z</published>
     <updated>2017-11-11T14:58:34.687Z</updated>
     
@@ -392,8 +392,8 @@
   
   <entry>
     <title>排序算法概括</title>
-    <link href="http://blog.ziwenzou.com/2017/01/10/2017-01-10-sort_algorithm/"/>
-    <id>http://blog.ziwenzou.com/2017/01/10/2017-01-10-sort_algorithm/</id>
+    <link href="http://blog.ziwenzou.com/2017/01/10/sort_algorithm/"/>
+    <id>http://blog.ziwenzou.com/2017/01/10/sort_algorithm/</id>
     <published>2017-01-09T16:00:00.000Z</published>
     <updated>2017-11-11T14:58:38.936Z</updated>
     
@@ -414,8 +414,8 @@
   
   <entry>
     <title>接口响应时间长的调优经验</title>
-    <link href="http://blog.ziwenzou.com/2017/01/06/2017-01-06-service_architecture/"/>
-    <id>http://blog.ziwenzou.com/2017/01/06/2017-01-06-service_architecture/</id>
+    <link href="http://blog.ziwenzou.com/2017/01/06/service_architecture/"/>
+    <id>http://blog.ziwenzou.com/2017/01/06/service_architecture/</id>
     <published>2017-01-05T16:00:00.000Z</published>
     <updated>2017-11-11T14:58:49.060Z</updated>
     
@@ -436,8 +436,8 @@
   
   <entry>
     <title>Redis scan命令的一次坑</title>
-    <link href="http://blog.ziwenzou.com/2016/12/05/2016-12-05-redis_scan_notice/"/>
-    <id>http://blog.ziwenzou.com/2016/12/05/2016-12-05-redis_scan_notice/</id>
+    <link href="http://blog.ziwenzou.com/2016/12/05/redis_scan_notice/"/>
+    <id>http://blog.ziwenzou.com/2016/12/05/redis_scan_notice/</id>
     <published>2016-12-04T16:00:00.000Z</published>
     <updated>2017-11-11T14:58:59.030Z</updated>
     
